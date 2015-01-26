@@ -18,3 +18,4 @@ Notes (Next steps):
    - Improving the UI looks.
    - Add the date picker option as a dialog fragment.
 
+![ScreenShot](https://raw.github.com/bchandramouli/CodePathApps/master/codepathApp_todo.gif)
