@@ -9,12 +9,13 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.squareup.picasso.Cache;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by moulib on 1/19/15.
  */
-public class Task extends Model {
+public class Task extends Model implements Comparable<Task> {
 
     private int taskId;
     public String taskName;
@@ -54,18 +55,8 @@ public class Task extends Model {
         this.taskId = id;
     }
 
-    // Return the cursor for all tasks
-    /*
-    public static Cursor fetchTasksCursor() {
-        String tableName = Cache.getTableInfo(Task.class).getTableName();
-        String resultRecords = new Select(tableName + ".*, " + tableName + ".Id as _id").
-                from(Task.class).toSql();
-        // Execute query on the ActiveAndroid SQLite DB
-        Cursor resultCursor = Cache.openDatabase().rawQuery(resultRecords, null);
-
-        return (resultCursor);
+    @Override
+    public int compareTo(Task compareTask) {
+        return (this.taskPriority - compareTask.taskPriority);
     }
-    */
-
-
 }

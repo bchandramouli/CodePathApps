@@ -32,16 +32,16 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         ViewHolder viewHolder; // view lookup cache -> stored in tag!
 
         // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
+        //if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_task, parent, false);
             viewHolder.taskName = (TextView)convertView.findViewById(R.id.tvName);
             viewHolder.priority = (TextView)convertView.findViewById(R.id.tvPriority);
             convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder)convertView.getTag();
-        }
+        //} else {
+        //    viewHolder = (ViewHolder)convertView.getTag();
+        //}
 
         // Populate the data into the template view using the data object
         viewHolder.taskName.setText(task.taskName);

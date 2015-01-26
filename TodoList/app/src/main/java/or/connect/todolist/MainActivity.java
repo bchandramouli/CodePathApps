@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 
     protected static final int TASK_DEFAULT_PRIORITY = 10;
 
-    List<Task> items;
+    ArrayList<Task> items;
     TasksAdapter taskAdapter;
     ListView lvItems;
 
@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
         items = db.getAllTasks();
 
         lvItems = (ListView)findViewById(R.id.lvItems);
-        taskAdapter = new TasksAdapter(this, (ArrayList<Task>)items);
+        taskAdapter = new TasksAdapter(this, items);
 
         // Attach the adapter to the ListView
         lvItems.setAdapter(taskAdapter);
@@ -156,6 +156,7 @@ public class MainActivity extends Activity {
 
         db.addTask(task);
         items.add(task);
+        Collections.sort(items);
 
         taskAdapter.notifyDataSetChanged();
 
@@ -191,10 +192,10 @@ public class MainActivity extends Activity {
 
         /* XXX - Cursor stuff... leave it alone for now...
         // Query for items from the database and get a cursor back
-        Cursor taskCursor = Task.fetchTasksCursor();
+        Cursor cursor = db.getTaskCursor();
 
         // Setup cursor adapter using cursor from last step
-        taskAdapter = new TasksCursorAdapter(this, taskCursor);
+        taskAdapter = new TasksCursorAdapter(this, cursor);
         */
     }
 }
