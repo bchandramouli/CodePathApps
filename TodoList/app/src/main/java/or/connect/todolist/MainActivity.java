@@ -3,6 +3,7 @@ package or.connect.todolist;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -39,48 +41,15 @@ public class MainActivity extends Activity {
 
     protected static final int TASK_DEFAULT_PRIORITY = 10;
 
-    ArrayList<Task> items;
-    TasksAdapter itemAdapter;
+    List<Task> items;
+    TasksAdapter taskAdapter;
     ListView lvItems;
+
+    TasksDatabase db;
 
     private final int REQUEST_CODE = 1;
 
     private static final boolean DEBUG = false;
-
-    private void readItems() {
-        /* Using Files
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-
-        try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
-        } catch (IOException e) {
-            items = new ArrayList<String>();
-        }
-        */
-
-
-        /* Custom Adapter */
-        items = new ArrayList<Task>();
-    }
-
-    private void writeItems() {
-
-        /* Using Files
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(todoFile, items);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
-
-        /* Custom Adapter */
-        Collections.sort(items);
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,17 +57,19 @@ public class MainActivity extends Activity {
         ActiveAndroid.initialize(this);
         setContentView(R.layout.activity_main);
 
-        readItems();
+        db = new TasksDatabase(this);
+        items = db.getAllTasks();
 
         lvItems = (ListView)findViewById(R.id.lvItems);
-        itemAdapter = new TasksAdapter(this, items);
-        lvItems.setAdapter(itemAdapter);
+        taskAdapter = new TasksAdapter(this, (ArrayList<Task>)items);
 
-        writeItems();
+        // Attach the adapter to the ListView
+        lvItems.setAdapter(taskAdapter);
 
         if (items.isEmpty()) {
             Toast.makeText(this, "List em and get em done", Toast.LENGTH_SHORT).show();
         }
+
         setupItemListener();
     }
 
@@ -129,9 +100,18 @@ public class MainActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent,
                                            View view, int position, long id) {
+
+                Task delTask = items.get(position);
+
+                db.deleteTask(delTask);
                 items.remove(position);
-                writeItems();
-                itemAdapter.notifyDataSetChanged();
+
+                taskAdapter.notifyDataSetChanged();
+
+                //get the new cursor... how to???
+                // Switch to new cursor and update contents of ListView
+                //TasksAdapter.changeCursor(newCursor);
+
                 return true;
             }
         });
@@ -169,17 +149,18 @@ public class MainActivity extends Activity {
         try {
             priority = Integer.parseInt(etPriority.getText().toString());
         } catch(NumberFormatException e) {
-            Toast.makeText(this, "Default priority - 10", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Default priority [10]", Toast.LENGTH_SHORT).show();
         }
 
-        Task tsk = new Task(itemText, priority);
-        //items.add(tsk);
-        tsk.save();
+        Task task = new Task(itemText, priority);
+
+        db.addTask(task);
+        items.add(task);
+
+        taskAdapter.notifyDataSetChanged();
 
         etNewItem.setText("");
         etPriority.setText("");
-
-        writeItems();
     }
 
 
@@ -187,29 +168,33 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            // Extract name value from result extras
-            Task tsk = new Task();
-            tsk.taskName = data.getExtras().getString("updatedText");
 
             int position = data.getExtras().getInt("editPos");
 
+            Task task = items.get(position);
+            task.taskName = data.getExtras().getString("updatedText");
+
             if (DEBUG) {
-                Toast.makeText(this, tsk.taskName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, task.taskName, Toast.LENGTH_SHORT).show();
             }
-            //items.remove(position);
 
-            Task oldTsk = items.get(position);
+            db.updateTask(task);
+
             items.remove(position);
+            items.add(position, task);
 
-            tsk.taskPriority = oldTsk.taskPriority;
-
-            // XXX - see if we can use this instead...
-            // items.set(position, tsk);
-            items.add(position, tsk);
-
-            writeItems();
-
-            itemAdapter.notifyDataSetChanged();
+            taskAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void readItems() {
+
+        /* XXX - Cursor stuff... leave it alone for now...
+        // Query for items from the database and get a cursor back
+        Cursor taskCursor = Task.fetchTasksCursor();
+
+        // Setup cursor adapter using cursor from last step
+        taskAdapter = new TasksCursorAdapter(this, taskCursor);
+        */
     }
 }

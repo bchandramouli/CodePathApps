@@ -1,22 +1,23 @@
 package or.connect.todolist;
 
+import android.database.Cursor;
+import android.provider.BaseColumns;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.squareup.picasso.Cache;
 
 import java.util.List;
 
 /**
  * Created by moulib on 1/19/15.
  */
-@Table(name = "Tasks")
-public class Task extends Model implements Comparable<Task> {
+public class Task extends Model {
 
-    @Column(name = "Task Name")
+    private int taskId;
     public String taskName;
-
-    @Column(name = "Task Priority")
     public int taskPriority;
 
     public Task() {
@@ -29,8 +30,42 @@ public class Task extends Model implements Comparable<Task> {
         this.taskPriority = priority;
     }
 
-    @Override
-    public int compareTo(Task compareTsk) {
-        return (this.taskPriority - compareTsk.taskPriority);
+    public String getTaskName() {
+        return (taskName);
     }
+
+    public void setTaskName(String name) {
+        this.taskName = name;
+    }
+
+    public int getTaskPriority() {
+        return (taskPriority);
+    }
+
+    public void setTaskPriority(int priority) {
+        this.taskPriority = priority;
+    }
+
+    public int getTaskId() {
+        return (taskId);
+    }
+
+    public void setTaskId(int id) {
+        this.taskId = id;
+    }
+
+    // Return the cursor for all tasks
+    /*
+    public static Cursor fetchTasksCursor() {
+        String tableName = Cache.getTableInfo(Task.class).getTableName();
+        String resultRecords = new Select(tableName + ".*, " + tableName + ".Id as _id").
+                from(Task.class).toSql();
+        // Execute query on the ActiveAndroid SQLite DB
+        Cursor resultCursor = Cache.openDatabase().rawQuery(resultRecords, null);
+
+        return (resultCursor);
+    }
+    */
+
+
 }
