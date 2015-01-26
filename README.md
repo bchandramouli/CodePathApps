@@ -15,8 +15,8 @@ Completed user stories:
 
 Notes (Next steps):
    - Working on adopting to ActiveAndroid ORM instead of SQLiteOpenHelper
-   - Improving the UI looks.
-   - Add the date picker option as a dialog fragment.
+   - Improving the UI looks
+   - Add the date picker option as a dialog fragment
 
 
 Walkthrough of all user stories:
