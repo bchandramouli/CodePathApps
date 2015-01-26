@@ -19,4 +19,5 @@ Notes (Next steps):
    - Add the date picker option as a dialog fragment.
 
 Walkthrough of all user stories:
+
 ![ScreenShot](https://raw.github.com/bchandramouli/CodePathApps/master/codepathApp_todo.gif)
