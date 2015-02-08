@@ -166,16 +166,14 @@ public class PopularPhotos extends ActionBarActivity {
                                     photoComment.from = from.getString("username");
                                     photoComment.fromProfile = from.getString("profile_picture");
                                 }
-                                photo.comments.add(photoComment);
+                                photo.comments.add(0, photoComment);
                             }
 
                         } else {
                            photo.commentCount = 0;
                         }
-
-                        photoList.add(photo);
+                        photoList.add(0, photo);
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
