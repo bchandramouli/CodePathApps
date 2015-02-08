@@ -1,5 +1,5 @@
-# CodePathApps
-CodePath app submissions observer group
+# CodePathApps - TodoList
+CodePath app submission - observer group
 
 This is an Adroid application for task lists (todos). 
 
