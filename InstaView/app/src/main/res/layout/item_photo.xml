@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="@string/new_text"
         android:id="@+id/tvLikes"
-        android:textSize="9sp"
+        android:textSize="10sp"
         android:layout_margin="5dp"
         android:ellipsize="end"
         android:layout_alignParentLeft="true"
@@ -70,5 +70,51 @@
         android:layout_marginBottom="5dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvLikes" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_text"
+        android:layout_margin="3dp"
+        android:textSize="10sp"
+        android:id="@+id/tvCommentUser1"
+        android:layout_below="@+id/tvCaption"
+        android:layout_alignLeft="@+id/tvCaption"
+        android:layout_alignStart="@+id/tvCaption" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_text"
+        android:id="@+id/tvComment1"
+        android:layout_marginTop="3dp"
+        android:textSize="10sp"
+        android:maxLines="1"
+        android:layout_below="@+id/tvCaption"
+        android:layout_toRightOf="@+id/tvCommentUser1"
+        android:layout_toEndOf="@+id/tvCommentUser1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_text"
+        android:layout_margin="3dp"
+        android:textSize="10sp"
+        android:id="@+id/tvCommentUser2"
+        android:layout_below="@+id/tvComment1"
+        android:layout_alignLeft="@+id/tvCaption"
+        android:layout_alignStart="@+id/tvCaption" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_text"
+        android:id="@+id/tvComment2"
+        android:layout_marginTop="3dp"
+        android:textSize="10sp"
+        android:maxLines="1"
+        android:layout_below="@+id/tvComment1"
+        android:layout_toRightOf="@+id/tvCommentUser2"
+        android:layout_toEndOf="@+id/tvCommentUser2" />
 
 </RelativeLayout>

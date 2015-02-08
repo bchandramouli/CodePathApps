@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class TasksAdapter extends ArrayAdapter<Task> {
 
-    /* Apply the viewhOlder Pattern and cache views for faster loading */
+    /* Apply the viewHolder Pattern and cache views for faster loading */
     private static class ViewHolder {
         TextView taskName;
         TextView priority;

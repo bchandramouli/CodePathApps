@@ -89,6 +89,8 @@ public class PopularPhotos extends ActionBarActivity {
                  *   - Author: {“data” => [x] => “user” => “username”}
                  *   - posted time: {“data” => [x] => “created_time”}
                  *   - Caption: {“data” => [x] => “caption” => “text”}
+                 *   - Comments: {"data" => [x] =>
+                 *        "comments" => "data" => [x] => "created_time", "text", "count", "from" => "username", "profile_picture"
                  */
                 //Log.i("DEBUG", response.toString());
 
@@ -103,33 +105,32 @@ public class PopularPhotos extends ActionBarActivity {
                         // create a new photo object and populate it
                         InstagramPhoto photo = new InstagramPhoto();
 
-                        //photo.type = photoJSON.getString("type");
-
-                        JSONObject tmp = null;
-
-                        tmp = photoJSON.getJSONObject("user");
-                        if (tmp != null) {
-                            photo.username = tmp.getString("username");
-                            photo.userProfileUrl = tmp.getString("profile_picture");
+                        JSONObject user = photoJSON.getJSONObject("user");
+                        if (user != null) {
+                            photo.username = user.getString("username");
+                            photo.userProfileUrl = user.getString("profile_picture");
                         } else {
                             photo.username = "foo";
                             photo.userProfileUrl = "";
                         }
-
-                        tmp = photoJSON.getJSONObject("caption");
-                        if (tmp != null) {
-                            photo.caption = (tmp).getString("text");
-                        } else {
+                        try {
+                            JSONObject caption = photoJSON.getJSONObject("caption");
+                            if (caption != null) {
+                                photo.caption = caption.getString("text");
+                            } else {
+                                photo.caption = "";
+                            }
+                        } catch (JSONException e) {
                             photo.caption = "";
                         }
 
-                        tmp = photoJSON.getJSONObject("images");
-                        if (tmp != null) {
-                            tmp = tmp.getJSONObject("standard_resolution");
+                        JSONObject images = photoJSON.getJSONObject("images");
+                        if (images != null) {
+                            images = images.getJSONObject("standard_resolution");
                         }
-                        if (tmp != null) {
-                            photo.imageUrl = tmp.getString("url");
-                            photo.imageHeight = tmp.getInt("height");
+                        if (images != null) {
+                            photo.imageUrl = images.getString("url");
+                            photo.imageHeight = images.getInt("height");
                         } else {
                             photo.imageUrl = "";
                             photo.imageHeight = 10;
@@ -137,11 +138,39 @@ public class PopularPhotos extends ActionBarActivity {
 
                         photo.timeCreated = Long.parseLong(photoJSON.getString("created_time"));
 
-                        tmp = photoJSON.getJSONObject("likes");
-                        if (tmp != null) {
-                            photo.likesCount = tmp.getInt("count");
+                        JSONObject likes = photoJSON.getJSONObject("likes");
+                        if (likes != null) {
+                            photo.likesCount = likes.getInt("count");
                         } else {
                             photo.likesCount = 0;
+                        }
+
+                        JSONObject comments = photoJSON.getJSONObject("comments");
+                        if (comments != null) {
+
+                            // get the comments from the data array!
+                            JSONArray commentArray = comments.getJSONArray("data");
+
+                            photo.comments = new ArrayList<PhotoComment>();
+                            photo.commentCount = commentArray.length();
+
+                            for (int j = 0; j < commentArray.length(); j++) {
+                                JSONObject cmt = commentArray.getJSONObject(j);
+                                PhotoComment photoComment = new PhotoComment();
+
+                                photoComment.createTime = Long.parseLong(cmt.getString("created_time"));
+                                photoComment.text = cmt.getString("text");
+
+                                JSONObject from = cmt.getJSONObject("from");
+                                if (from != null) {
+                                    photoComment.from = from.getString("username");
+                                    photoComment.fromProfile = from.getString("profile_picture");
+                                }
+                                photo.comments.add(photoComment);
+                            }
+
+                        } else {
+                           photo.commentCount = 0;
                         }
 
                         photoList.add(photo);
