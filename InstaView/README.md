@@ -14,10 +14,11 @@ Completed user stories:
 * [x] Optional: Fix photo to use same proportions as the real instagram
 * [x] Optional: Display user profile with RoundedImageView
 * [x] Optional: Added viewHolder pattern to cache the views
+* [x] Optional: Fix the ActionBar UI
+* [x] Optional: Additional comments displayed via Dialog Fragment. 
 
 Notes (Next steps):
-   - Fix the ActionBar UI
-   - Comments Dialog Fragment has issues with passing arraylist as serializable objects. Need to fix this.
+    - Dismissing dialog fragments.
 
 Walkthrough of all user stories:
 
