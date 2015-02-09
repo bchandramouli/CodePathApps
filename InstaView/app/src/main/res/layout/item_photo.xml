@@ -1,54 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivUserProfile"
-        android:minHeight="20dp"
-        android:minWidth="20dp"
-        android:layout_margin="5dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/new_text"
-        android:id="@+id/tvUserName"
-        android:textSize="9sp"
-        android:textColor="@color/darkblue"
-        android:layout_alignTop="@+id/ivUserProfile"
-        android:layout_alignBottom="@+id/ivUserProfile"
-        android:layout_toRightOf="@+id/ivUserProfile"
-        android:layout_toEndOf="@+id/ivUserProfile" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/new_text"
-        android:textSize="9sp"
-        android:id="@+id/tvDate"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/ivUserProfile" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/icHourGlass"
-        android:src="@drawable/clock_icon"
-        android:minHeight="20dp"
-        android:layout_toLeftOf="@+id/tvDate"
-        android:scaleType="fitEnd"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="3dp"
-        android:layout_alignTop="@+id/ivUserProfile"
-        android:layout_alignBottom="@+id/ivUserProfile" />
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="5dp">
 
     <ImageView
         android:layout_width="match_parent"
@@ -57,33 +10,95 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:contentDescription="@string/popular_photos"
-        android:minHeight="150dp"
-        android:layout_marginBottom="5dp"
-        android:layout_below="@+id/ivUserProfile"
-        android:layout_alignParentTop="true"
+        android:minHeight="150dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:id="@+id/rlFirstLine">
+
+        <requestFocus></requestFocus>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivUserProfile"
+            android:minHeight="20dp"
+            android:minWidth="20dp"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_text"
+            android:id="@+id/tvUserName"
+            android:textColor="@color/darkblue"
+            android:layout_alignTop="@+id/ivUserProfile"
+            android:layout_alignBottom="@+id/ivUserProfile"
+            android:layout_alignBaseline="@+id/ivUserProfile"
+            android:layout_toRightOf="@+id/ivUserProfile"
+            android:layout_toEndOf="@+id/ivUserProfile" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_text"
+            android:id="@+id/tvDate"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/icHourGlass"
+            android:layout_alignBottom="@+id/ivUserProfile" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/icHourGlass"
+            android:src="@drawable/hour_glass_icon"
+            android:minHeight="20dp"
+            android:scaleType="fitEnd"
+            android:layout_marginBottom="5dp"
+            android:layout_toStartOf="@+id/tvDate"
+            android:layout_toLeftOf="@+id/tvDate"
+            android:layout_alignTop="@+id/ivUserProfile"
+            android:layout_alignBottom="@+id/ivUserProfile" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dummy"
+        android:id="@+id/tvDummy"
+        android:layout_below="@+id/ivPhoto"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/tvLikes"
+        android:layout_alignBottom="@+id/tvLikes"
+        android:visibility="invisible" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/icHeart"
         android:src="@drawable/heart_icon"
-        android:layout_alignParentLeft="true"
-        android:layout_alignBottom="@+id/tvLikes"
+        android:scaleType="fitStart"
+        android:layout_marginLeft="5dp"
         android:minHeight="20dp"
-        android:scaleType="fitCenter"
-        android:layout_toStartOf="@+id/tvUserName"
+        android:minWidth="20dp"
+        android:adjustViewBounds="true"
         android:layout_alignTop="@+id/tvLikes"
-        android:layout_alignRight="@+id/ivUserProfile"
-        android:layout_alignEnd="@+id/ivUserProfile" />
+        android:layout_alignBottom="@+id/tvLikes"
+        android:layout_toStartOf="@+id/tvDummy"
+        android:layout_alignEnd="@+id/tvDummy"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_text"
         android:id="@+id/tvLikes"
-        android:textSize="10sp"
+        android:layout_margin="3dp"
         android:textColor="@color/darkblue"
         android:layout_below="@+id/ivPhoto"
         android:layout_toRightOf="@+id/icHeart" />
@@ -92,8 +107,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_text"
+        android:id="@+id/tvComments"
+        android:onClick="onCommentClick"
+        android:layout_margin="3dp"
+        android:textColor="@color/darkblue"
+        android:layout_below="@+id/ivPhoto"
+        android:layout_alignParentEnd="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icComment"
+        android:src="@drawable/comment_icon"
+        android:scaleType="fitEnd"
+        android:layout_marginRight="5dp"
+        android:minHeight="20dp"
+        android:minWidth="20dp"
+        android:adjustViewBounds="true"
+        android:onClick="onCommentClick"
+        android:layout_alignTop="@+id/tvComments"
+        android:layout_alignBottom="@+id/tvComments"
+        android:layout_toLeftOf="@+id/tvComments"
+        android:layout_toStartOf="@+id/tvComments"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_text"
         android:id="@+id/tvCaption"
-        android:textSize="10sp"
         android:ellipsize="end"
         android:maxLines="3"
         android:layout_marginLeft="5dp"
@@ -105,8 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_text"
-        android:layout_margin="3dp"
-        android:textSize="9sp"
+        android:layout_margin="2dp"
         android:id="@+id/tvCommentUser1"
         android:textColor="@color/darkblue"
         android:typeface="serif"
@@ -119,8 +159,7 @@
         android:layout_height="wrap_content"
         android:text="@string/new_text"
         android:id="@+id/tvComment1"
-        android:layout_marginTop="3dp"
-        android:textSize="9sp"
+        android:layout_marginTop="2dp"
         android:maxLines="1"
         android:layout_below="@+id/tvCaption"
         android:layout_toRightOf="@+id/tvCommentUser1"
@@ -130,8 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_text"
-        android:layout_margin="3dp"
-        android:textSize="9sp"
+        android:layout_margin="1dp"
         android:id="@+id/tvCommentUser2"
         android:typeface="serif"
         android:textColor="@color/darkblue"
@@ -144,8 +182,8 @@
         android:layout_height="wrap_content"
         android:text="@string/new_text"
         android:id="@+id/tvComment2"
-        android:layout_marginTop="3dp"
-        android:textSize="9sp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="2dp"
         android:maxLines="1"
         android:layout_below="@+id/tvCommentUser1"
         android:layout_toRightOf="@+id/tvCommentUser2"

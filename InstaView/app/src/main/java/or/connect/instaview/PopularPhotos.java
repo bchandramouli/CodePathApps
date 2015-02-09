@@ -1,12 +1,16 @@
 package or.connect.instaview;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -84,7 +88,8 @@ public class PopularPhotos extends ActionBarActivity {
                 /*
                  * Response: Expect a Json Object
                  *   - TYPE: {“data” => [x] => “type” => “image” or “video"
-                 *       - URL: {“data” => “images” => “standard resolution” => “url”}
+                 *       - URL: {“data” => “images” => “standard resolution” => “url”, "height", "width"}
+                 *   - Filter: {"data" => [x] => "filter" }
                  *   - Likes: {“data”=> [x] => “likes” => “count”}
                  *   - Author: {“data” => [x] => “user” => “username”}
                  *   - posted time: {“data” => [x] => “created_time”}
@@ -104,6 +109,8 @@ public class PopularPhotos extends ActionBarActivity {
 
                         // create a new photo object and populate it
                         InstagramPhoto photo = new InstagramPhoto();
+
+                        photo.filter = photoJSON.getString("filter");
 
                         JSONObject user = photoJSON.getJSONObject("user");
                         if (user != null) {
@@ -131,6 +138,7 @@ public class PopularPhotos extends ActionBarActivity {
                         if (images != null) {
                             photo.imageUrl = images.getString("url");
                             photo.imageHeight = images.getInt("height");
+                            photo.imageWidth = images.getInt("width");
                         } else {
                             photo.imageUrl = "";
                             photo.imageHeight = 10;
@@ -191,10 +199,31 @@ public class PopularPhotos extends ActionBarActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 // Failure handling - TODO
                 //super.onFailure(statusCode, headers, responseString, throwable);
+                swipeContainer.setRefreshing(false);
             }
         });
     }
 
+    /*
+     * If the comments are clicked
+     *     - Start a dialog fragment
+     *     - pass the photo comments to be display as a listview!
+     */
+
+
+    public void onCommentClick(View v) {
+        ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
+        int position = lvPhotos.getPositionForView((View) v.getParent());
+        InstagramPhoto photo = photoList.get(position);
+
+        if (photo.commentCount > 0) {
+            /* Parcelable - is not working yet - XXX TODO
+            Intent i = new Intent(PopularPhotos.this, CommentDialog.class);
+            i.putExtra("comments_wrapper", new CommentWrapper(photo.comments));
+            startActivity(i);
+            */
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
