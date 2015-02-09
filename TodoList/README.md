@@ -21,6 +21,6 @@ Notes (Next steps):
 
 Walkthrough of all user stories:
 
-![ScreenShot](https://raw.github.com/bchandramouli/CodePathApps/master/codepathApp_todo.gif)
+![ScreenShot](https://github.com/bchandramouli/CodePathApps/blob/master/TodoList/codepathApp_todo.gif)
 
 GIF created with LiceCap.
