@@ -3,7 +3,7 @@ CodePath app submission - observer group
 
 This is an Adroid application for popular Instagram photos. 
 
-Time spent: 16 hours 
+Time spent: 18 hours 
 
 Completed user stories:
 * [x] Required: User can scroll through current popular photos from Instagram. 
