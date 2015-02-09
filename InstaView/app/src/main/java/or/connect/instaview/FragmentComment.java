@@ -1,5 +1,7 @@
 package or.connect.instaview;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
@@ -25,5 +27,10 @@ public class FragmentComment extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         CommentDialog commentDialog = CommentDialog.newInstance(commentWrapper.getComments());
         commentDialog.show(fm, "fragment_comments");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

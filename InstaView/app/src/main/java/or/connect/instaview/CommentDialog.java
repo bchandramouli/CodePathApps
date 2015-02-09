@@ -1,5 +1,7 @@
 package or.connect.instaview;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -52,38 +54,14 @@ public class CommentDialog extends DialogFragment {
         lvComments.requestFocus();
         aComments.notifyDataSetChanged();
 
-        /*
-        View mDialogView = this.getView();
-        mDialogView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // create a rect for storing the window rect
-                Rect r = new Rect(0, 0, 0, 0);
-
-                // retrieve the windows rect
-                getActivity().getWindow().getDecorView().getHitRect(r);
-
-                // check if the event position is inside the window rect
-                boolean intersects = r.contains((int) event.getX(), (int) event.getY());
-
-                // if the event is not inside then we can close the activity
-                if (!intersects) {
-                    // close the activity
-                    dismiss();
-                    // notify that we consumed this event
-                    return true;
-                }
-
-                return false;
-            }
-        });
-        */
-
-        if (this.getDialog() != null) {
-            this.getDialog().setCancelable(true);
-            this.getDialog().setCanceledOnTouchOutside(true);
-        }
-
         return view;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        Activity parent = this.getActivity();
+        if (parent != null) {
+            parent.finish();
+        }
     }
 }

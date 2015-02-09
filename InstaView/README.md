@@ -15,10 +15,10 @@ Completed user stories:
 * [x] Optional: Display user profile with RoundedImageView
 * [x] Optional: Added viewHolder pattern to cache the views
 * [x] Optional: Fix the ActionBar UI
-* [x] Optional: Additional comments displayed via Dialog Fragment. 
+* [x] Optional: Additional comments displayed via Dialog Fragment.
 
 Notes (Next steps):
-    - Dismissing dialog fragments.
+    - Stylize the UI further.
 
 Walkthrough of all user stories:
 
