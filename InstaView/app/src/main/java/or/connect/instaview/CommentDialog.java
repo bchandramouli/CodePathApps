@@ -1,10 +1,12 @@
 package or.connect.instaview;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.text.Layout;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -36,9 +38,7 @@ public class CommentDialog extends DialogFragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.comment_fragment, container);
-
         ListView lvComments = (ListView) view.findViewById(R.id.lvComments);
-
         ArrayList<PhotoComment> commentList =
                 (ArrayList<PhotoComment>)getArguments().getSerializable("comments_data");
 
@@ -49,11 +49,15 @@ public class CommentDialog extends DialogFragment {
 
         // bind it to the custom adapter
         lvComments.setAdapter(aComments);
-
         lvComments.requestFocus();
-
         aComments.notifyDataSetChanged();
+
+        if (this.getDialog() != null) {
+            this.getDialog().setCanceledOnTouchOutside(true);
+        }
 
         return view;
     }
+
+
 }

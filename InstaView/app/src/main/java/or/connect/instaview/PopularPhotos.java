@@ -199,7 +199,7 @@ public class PopularPhotos extends ActionBarActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                // Failure handling - TODO
+                // Failure handling
                 //super.onFailure(statusCode, headers, responseString, throwable);
                 swipeContainer.setRefreshing(false);
             }
@@ -219,11 +219,10 @@ public class PopularPhotos extends ActionBarActivity {
         InstagramPhoto photo = photoList.get(position);
 
         if (photo.commentCount > 0) {
-            /* Parcelable - is not working yet - XXX TODO
-            Intent i = new Intent(PopularPhotos.this, CommentDialog.class);
+            /* Using serializable in place of Parcelable - TODO */
+            Intent i = new Intent(PopularPhotos.this, FragmentComment.class);
             i.putExtra("comments_wrapper", new CommentWrapper(photo.comments));
             startActivity(i);
-            */
         }
     }
 

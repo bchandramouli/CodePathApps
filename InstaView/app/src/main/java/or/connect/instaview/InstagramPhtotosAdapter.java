@@ -1,28 +1,20 @@
 package or.connect.instaview;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.callback.Callback;
 
 /**
  * Created by moulib on 2/4/15.
@@ -43,7 +35,6 @@ public class InstagramPhtotosAdapter extends ArrayAdapter<InstagramPhoto> {
         TextView tvComment2;
         TextView tvCommentUser2;
         TextView tvBg;
-        RelativeLayout rlFirstLine;
     };
 
     private ViewHolder viewHolder; //view lookup cache -> stored in tag!
@@ -116,18 +107,9 @@ public class InstagramPhtotosAdapter extends ArrayAdapter<InstagramPhoto> {
         Picasso.with(getContext()).load(photo.userProfileUrl).
                 transform(transformation).fit().into(viewHolder.ivUserProfile);
 
-        Picasso.with(getContext()).load(photo.imageUrl).resize(photo.imageWidth, photo.imageHeight).centerInside().into(viewHolder.ivPhoto, new com.squareup.picasso.Callback() {
-            @Override
-            public void onSuccess() {
-                //viewHolder.tvBg.setBackgroundColor(0x01000000);
-            }
+        Picasso.with(getContext()).load(photo.imageUrl).resize(photo.imageWidth, photo.imageHeight).centerInside().into(viewHolder.ivPhoto);
 
-            @Override
-            public void onError() {
-            }
-        });
-
-        viewHolder.tvBg.setBackgroundColor(0x01000000);
+        viewHolder.tvBg.setBackgroundColor(0x12000000);
 
         if (photo.commentCount > 0) {
             viewHolder.tvCommentUser1.setText(photo.comments.get(0).from);

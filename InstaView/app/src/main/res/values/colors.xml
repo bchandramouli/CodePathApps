@@ -11,6 +11,8 @@
     <item name="darkgreen" type="color">#FF669900</item>
     <item name="darkorange" type="color">#FFFF8800</item>
     <item name="darkred" type="color">#FFCC0000</item>
+    <item name="simple_yellow" type="color">#ECD078</item>
+    <item name="primary_blue" type="color">#53777A</item>
 
     <integer-array name="androidcolors">
         <item>@color/blue</item>
@@ -23,6 +25,8 @@
         <item>@color/darkgreen</item>
         <item>@color/darkorange</item>
         <item>@color/darkred</item>
+        <item>@color/simple_yellow</item>
+        <item>@color/primary_blue</item>
     </integer-array>
 
 </resources> 
