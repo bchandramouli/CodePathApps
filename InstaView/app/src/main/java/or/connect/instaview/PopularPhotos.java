@@ -159,6 +159,8 @@ public class PopularPhotos extends ActionBarActivity {
                             // get the comments from the data array!
                             JSONArray commentArray = comments.getJSONArray("data");
 
+                            photo.commentTotal = comments.getInt("count");
+
                             photo.comments = new ArrayList<PhotoComment>();
                             photo.commentCount = commentArray.length();
 

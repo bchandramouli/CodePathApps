@@ -42,23 +42,23 @@ public class InstagramPhtotosAdapter extends ArrayAdapter<InstagramPhoto> {
         TextView tvCommentUser1;
         TextView tvComment2;
         TextView tvCommentUser2;
+        TextView tvBg;
         RelativeLayout rlFirstLine;
     };
+
+    private ViewHolder viewHolder; //view lookup cache -> stored in tag!
 
     // Take context and the data source. We already have a layout - so don't need the resource
     public InstagramPhtotosAdapter(Context context, List<InstagramPhoto> objects) {
         super(context, android.R.layout.simple_list_item_1, objects);
     }
 
-        // return the convertView
-
     // What does our item look like?
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         // Get the data item for this position
         InstagramPhoto photo = getItem(position);
-
-        ViewHolder viewHolder; //view lookup cache -> stored in tag!
 
         // Check if we are using a recycled view, if not inflate
         if (convertView == null) {
@@ -78,7 +78,7 @@ public class InstagramPhtotosAdapter extends ArrayAdapter<InstagramPhoto> {
             viewHolder.tvCommentUser1 = (TextView)convertView.findViewById(R.id.tvCommentUser1);
             viewHolder.tvComment2 = (TextView)convertView.findViewById(R.id.tvComment2);
             viewHolder.tvCommentUser2 = (TextView)convertView.findViewById(R.id.tvCommentUser2);
-            viewHolder.rlFirstLine = (RelativeLayout)convertView.findViewById(R.id.rlFirstLine);
+            viewHolder.tvBg = (TextView)convertView.findViewById(R.id.tvBg);
 
             convertView.setTag(viewHolder);
 
@@ -96,7 +96,7 @@ public class InstagramPhtotosAdapter extends ArrayAdapter<InstagramPhoto> {
         viewHolder.tvUserName.setText(photo.username);
         viewHolder.tvLikes.setText(Integer.toString(photo.likesCount) + " likes");
         if (photo.commentCount > 0) {
-            viewHolder.tvComments.setText("View all " + Integer.toString(photo.commentCount) + " comments");
+            viewHolder.tvComments.setText("View all " + Integer.toString(photo.commentTotal) + " comments");
         } else {
             viewHolder.tvComments.setVisibility(View.INVISIBLE);
         }
@@ -107,11 +107,8 @@ public class InstagramPhtotosAdapter extends ArrayAdapter<InstagramPhoto> {
          */
         viewHolder.ivPhoto.setImageResource(0);
         viewHolder.ivUserProfile.setImageResource(0);
-        Picasso.with(getContext()).load(photo.imageUrl).resize(photo.imageWidth, photo.imageHeight).centerInside().into(viewHolder.ivPhoto);
-
 
         //Picasso.with(getContext()).load(photo.userProfileUrl).fit().transform(new CircleTransform()).into(ivUserProfile);
-
         Transformation transformation = new RoundedTransformationBuilder()
                 .cornerRadiusDp(40)
                 .oval(false)
@@ -119,16 +116,18 @@ public class InstagramPhtotosAdapter extends ArrayAdapter<InstagramPhoto> {
         Picasso.with(getContext()).load(photo.userProfileUrl).
                 transform(transformation).fit().into(viewHolder.ivUserProfile);
 
-        viewHolder.rlFirstLine.getBackground().setAlpha(0);
-        //viewHolder.ivUserProfile.getBackground().setAlpha(51);
-        //viewHolder.tvUserName.getBackground().setAlpha(51);
-        //viewHolder.tvDate.getBackground().setAlpha(51);
+        Picasso.with(getContext()).load(photo.imageUrl).resize(photo.imageWidth, photo.imageHeight).centerInside().into(viewHolder.ivPhoto, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+                //viewHolder.tvBg.setBackgroundColor(0x01000000);
+            }
 
-        viewHolder.rlFirstLine.setBackgroundColor(Color.TRANSPARENT);
-        viewHolder.ivUserProfile.setBackgroundColor(Color.TRANSPARENT);
-        viewHolder.tvUserName.setBackgroundColor(Color.TRANSPARENT);
-        viewHolder.tvDate.setBackgroundColor(Color.TRANSPARENT);
-        //viewHolder.ivHourGlass.setBackgroundColor(Color.TRANSPARENT);
+            @Override
+            public void onError() {
+            }
+        });
+
+        viewHolder.tvBg.setBackgroundColor(0x01000000);
 
         if (photo.commentCount > 0) {
             viewHolder.tvCommentUser1.setText(photo.comments.get(0).from);
@@ -145,6 +144,7 @@ public class InstagramPhtotosAdapter extends ArrayAdapter<InstagramPhoto> {
             viewHolder.tvComment2.setVisibility(View.INVISIBLE);
         }
 
+        // return the convertView
         return convertView;
     }
 }

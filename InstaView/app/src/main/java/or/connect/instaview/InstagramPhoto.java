@@ -17,5 +17,6 @@ public class InstagramPhoto {
     public long timeCreated;
     public String userProfileUrl;
     public int commentCount;
+    public int commentTotal;
     public ArrayList<PhotoComment> comments;
 }

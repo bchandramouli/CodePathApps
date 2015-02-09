@@ -12,13 +12,19 @@
         android:contentDescription="@string/popular_photos"
         android:minHeight="150dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvBg"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textSize="20sp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="#27000000"
         android:id="@+id/rlFirstLine">
-
-        <requestFocus></requestFocus>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -45,6 +51,7 @@
             android:layout_height="wrap_content"
             android:text="@string/new_text"
             android:id="@+id/tvDate"
+            android:textColor="@color/darkblue"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:layout_alignParentTop="true"
