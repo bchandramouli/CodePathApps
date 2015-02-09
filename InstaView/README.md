@@ -21,6 +21,6 @@ Notes (Next steps):
 
 Walkthrough of all user stories:
 
-![ScreenShot](https://raw.github.com/bchandramouli/CodePathApps/master/instaView.gif)
+![ScreenShot](https://github.com/bchandramouli/CodePathApps/blob/master/InstaView/instaView.gif)
 
 GIF created with LiceCap.
