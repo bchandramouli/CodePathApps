@@ -1,0 +1,89 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".LoginActivity"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/highlight_preamble"
+        android:id="@+id/tvPreamble"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        android:textColor="#575757"/>
+
+    <ImageButton
+        android:id="@+id/btnFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:contentDescription="@string/facebook_desc"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_facebook"
+        android:layout_below="@+id/tvPreamble"
+        android:layout_alignLeft="@+id/tvPreamble"
+        android:layout_alignStart="@+id/tvPreamble"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <ImageButton
+        android:id="@+id/btnLinkedIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btnFacebook"
+        android:layout_alignLeft="@+id/btnFacebook"
+        android:layout_below="@+id/btnFacebook"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:contentDescription="@string/linkedin_desc"
+        android:src="@drawable/ic_linkedin"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/why_not_email_title"
+        android:id="@+id/tvEmailTitle"
+        android:layout_below="@+id/btnLinkedIn"
+        android:layout_marginTop="23dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#7e7e7e"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/why_not_email_body"
+        android:id="@+id/tvEmailBody"
+        android:layout_below="@+id/tvEmailTitle"
+        android:layout_marginTop="10dp"
+        android:textColor="#7e7e7e"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feedback_label"
+        android:id="@+id/tvFeedbackLabel"
+        android:layout_below="@+id/tvEmailBody"
+        android:layout_marginTop="10dp"
+        android:textColor="#7e7e7e"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/permission_label"
+        android:id="@+id/tvPermission"
+        android:layout_below="@+id/tvFeedbackLabel"
+        android:layout_marginTop="10dp"
+        android:textColor="#bbbbbb"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
