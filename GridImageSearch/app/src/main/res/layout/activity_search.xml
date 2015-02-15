@@ -10,6 +10,8 @@
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
+    <!--
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,12 +34,15 @@
         android:layout_alignParentEnd="true"
         android:onClick="onImageSearch"/>
 
+    -->
+
     <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gvResults"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/etQuery"
+        android:layout_below="@+id/toolbar"
         android:numColumns="3"/>
+    <!-- android:layout_below="@+id/etQuery" -->
 
 </RelativeLayout>

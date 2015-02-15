@@ -5,14 +5,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -36,7 +38,7 @@ import or.connect.gridimagesearch.models.ImageResult;
 
 public class SearchActivity extends ActionBarActivity implements FilterDialog.OnSaveListener {
 
-    private EditText etQuery;
+    //private EditText etQuery;
     private GridView gvResults;
 
     private ArrayList<ImageResult> imageResults;
@@ -128,16 +130,25 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
     }
 
     private Boolean networkAvailable() {
+
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnectedOrConnecting());
+
+        /*
         try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 5 www.google.com");
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
             int returnVal = p1.waitFor();
             boolean reachable = (returnVal == 0);
             return reachable;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            return true;
         }
         return false;
+        */
     }
 
     private void searchQuery(int page) {
@@ -206,7 +217,26 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_search, menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                sQuery = query;
+                // Initiate a new query
+                searchQuery(0);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -219,7 +249,7 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
     }
 
     private void setupViews() {
-        etQuery = (EditText) findViewById(R.id.etQuery);
+        //etQuery = (EditText) findViewById(R.id.etQuery);
         gvResults = (GridView) findViewById(R.id.gvResults);
 
         gvResults.setOnScrollListener(new EndlessScrollListener() {
@@ -245,10 +275,14 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
         gvResults.setAdapter(imageResultsAdapter);
     }
 
-    public void onImageSearch(View v) {
-        sQuery = etQuery.getText().toString();
-        searchQuery(0);
-    }
+    /*
+     * Using the toolbar search directly instead of a button
+     *
+     * public void onImageSearch(View v) {
+     *    sQuery = etQuery.getText().toString();
+     *    searchQuery(0);
+     * }
+    */
 
     /*
      * If the image/text is clicked
@@ -311,5 +345,7 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
             default:
                 break;
         }
+        // Initiate a new search with the filters applied!
+        searchQuery(0);
     }
 }
