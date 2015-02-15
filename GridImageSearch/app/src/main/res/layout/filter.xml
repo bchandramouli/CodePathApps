@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:background="@color/blue">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvImageSize"
+        android:text="@string/image_size"
+        android:layout_alignBottom="@+id/etImageSize"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etImageSize"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tvImageType"
+        android:layout_toEndOf="@+id/tvImageType" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvColorFilter"
+        android:text="@string/color_filter"
+        android:layout_alignBottom="@+id/etColorFilter"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etColorFilter"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/etImageSize"
+        android:layout_alignLeft="@+id/etImageSize"
+        android:layout_alignStart="@+id/etImageSize" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvImageType"
+        android:text="@string/image_type"
+        android:layout_alignBottom="@+id/etImageType"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etImageType"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/etColorFilter"
+        android:layout_alignLeft="@+id/etColorFilter"
+        android:layout_alignStart="@+id/etColorFilter" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSiteFilter"
+        android:text="@string/site_filter"
+        android:layout_alignBottom="@+id/etSiteFilter"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etSiteFilter"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/etImageType"
+        android:layout_alignLeft="@+id/etImageType"
+        android:layout_alignStart="@+id/etImageType" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/etSiteFilter"
+        android:layout_marginTop="50dp">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/btSave"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:id="@+id/btCancel"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_alignTop="@+id/btSave"
+        android:layout_toRightOf="@+id/btSave"
+        android:layout_toEndOf="@+id/btSave" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

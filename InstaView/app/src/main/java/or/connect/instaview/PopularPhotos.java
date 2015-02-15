@@ -212,7 +212,6 @@ public class PopularPhotos extends ActionBarActivity {
      *     - pass the photo comments to be display as a listview!
      */
 
-
     public void onCommentClick(View v) {
         ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
         int position = lvPhotos.getPositionForView((View) v.getParent());
