@@ -23,7 +23,7 @@ public class ImageResultsAdapter extends ArrayAdapter<ImageResult> {
 
     /* Apply the viewHolder Pattern and cache views for faster loading */
     private static class ViewHolder {
-        TextView tvTitle;
+        //TextView tvTitle;
         ImageView ivImage;
     };
 
@@ -48,7 +48,7 @@ public class ImageResultsAdapter extends ArrayAdapter<ImageResult> {
             convertView = inflater.inflate(R.layout.image_layout, parent, false);
 
             // look up the views for populating the data.
-            viewHolder.tvTitle = (TextView)convertView.findViewById(R.id.tvTitle);
+            //viewHolder.tvTitle = (TextView)convertView.findViewById(R.id.tvTitle);
             viewHolder.ivImage = (ImageView)convertView.findViewById(R.id.ivImage);
 
             convertView.setTag(viewHolder);
@@ -71,7 +71,7 @@ public class ImageResultsAdapter extends ArrayAdapter<ImageResult> {
         }
 
         // insert the model data into the view
-        viewHolder.tvTitle.setText(image.title);
+        //viewHolder.tvTitle.setText(image.title);
 
         // return the convertView
         return convertView;

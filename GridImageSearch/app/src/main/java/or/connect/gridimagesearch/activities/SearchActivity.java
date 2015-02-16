@@ -1,9 +1,15 @@
 package or.connect.gridimagesearch.activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +21,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -26,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Provider;
 import java.util.ArrayList;
 
 import abstract_classes.EndlessScrollListener;
@@ -53,6 +61,8 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
     public boolean firstReq = true;
 
     private String sQuery = "Android";
+
+    private android.support.v7.widget.ShareActionProvider miShareAction;
 
     public String getColor_filter() {
         return color_filter;
@@ -221,6 +231,11 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        // Fetch reference to the share action provider
+        miShareAction = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -236,6 +251,16 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
             }
         });
 
+        /*
+         * Using the toolbar search directly instead of a button
+         *
+         * public void onImageSearch(View v) {
+         *    sQuery = etQuery.getText().toString();
+         *    searchQuery(0);
+         *
+         *
+         */
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -246,6 +271,37 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
 
         setupViews();
         searchQuery(0);
+    }
+
+    // Returns the URI path to the Bitmap displayed in specified ImageView
+    public Uri getLocalBitmapUri(ImageView imageView) {
+        // Extract Bitmap from ImageView drawable
+        Drawable drawable = imageView.getDrawable();
+        Bitmap bmp = null;
+        if (drawable instanceof BitmapDrawable) {
+            bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        } else {
+            return null;
+        }
+
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bmp, "Image Description", null);
+
+        return(Uri.parse(path));
+    }
+
+    // Gets the image URI and setup the associated share intent to hook into the provider
+    public void setupShareIntent() {
+        // Fetch Bitmap Uri locally
+
+        ImageView ivImage = (ImageView)findViewById(R.id.ivFullImage);
+        Uri bmpUri = getLocalBitmapUri(ivImage); // see previous remote images section
+        // Create share intent as described above
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+        shareIntent.setType("image/*");
+        // Attach share event to the menu item provider
+        miShareAction.setShareIntent(shareIntent);
     }
 
     private void setupViews() {
@@ -276,15 +332,6 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
     }
 
     /*
-     * Using the toolbar search directly instead of a button
-     *
-     * public void onImageSearch(View v) {
-     *    sQuery = etQuery.getText().toString();
-     *    searchQuery(0);
-     * }
-    */
-
-    /*
      * If the image/text is clicked
      *     - Start a dialog fragment
      *     - pass the full url to be displayed!
@@ -294,8 +341,8 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
         ImageResult image = imageResults.get(position);
 
         FragmentManager fm = getSupportFragmentManager();
-        ImageDialog imageDialog = ImageDialog.newInstance(image.fullUrl);
-        imageDialog.show(fm, "full_image");
+        ImageDialog imageDialog = ImageDialog.newInstance(image.fullUrl, image.title);
+        imageDialog.show(fm, "larger_image");
     }
 
     /*

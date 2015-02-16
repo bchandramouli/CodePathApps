@@ -9,17 +9,17 @@
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:minWidth="125dp"
-        android:minHeight="125dp"
+        android:minWidth="500dp"
+        android:minHeight="500dp"
         android:onClick="onImageClick"
         android:id="@+id/ivImage" />
 
-    <TextView
+    <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvTitle"
         android:text="@string/caption"
         android:ellipsize="end"
         android:maxLines="1"
-        android:onClick="onImageClick"/>
+        android:onClick="onImageClick"/> -->
 </LinearLayout>
