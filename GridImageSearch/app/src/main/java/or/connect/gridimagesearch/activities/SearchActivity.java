@@ -1,5 +1,6 @@
 package or.connect.gridimagesearch.activities;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -279,29 +280,37 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
         Drawable drawable = imageView.getDrawable();
         Bitmap bmp = null;
         if (drawable instanceof BitmapDrawable) {
-            bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            bmp = ((BitmapDrawable)drawable).getBitmap();
         } else {
             return null;
         }
 
-        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bmp, "Image Description", null);
+        ContentResolver cr = SearchActivity.this.getContentResolver();
+        String path = MediaStore.Images.Media.insertImage(cr, bmp, "Description", null);
 
-        return(Uri.parse(path));
+        if (path == null) {
+            return null;
+        } else {
+            return(Uri.parse(path));
+        }
     }
 
     // Gets the image URI and setup the associated share intent to hook into the provider
-    public void setupShareIntent() {
+    public void setupShareIntent(ImageView ivImage) {
         // Fetch Bitmap Uri locally
 
-        ImageView ivImage = (ImageView)findViewById(R.id.ivFullImage);
+        //ImageView ivImage = (ImageView)findViewById(R.id.ivFullImage);
         Uri bmpUri = getLocalBitmapUri(ivImage); // see previous remote images section
-        // Create share intent as described above
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-        shareIntent.setType("image/*");
-        // Attach share event to the menu item provider
-        miShareAction.setShareIntent(shareIntent);
+
+        if (bmpUri != null) {
+            // Create share intent as described above
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+            shareIntent.setType("image/*");
+            // Attach share event to the menu item provider
+            miShareAction.setShareIntent(shareIntent);
+        }
     }
 
     private void setupViews() {

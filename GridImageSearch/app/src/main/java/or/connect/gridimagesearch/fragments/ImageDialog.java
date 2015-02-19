@@ -42,7 +42,7 @@ public class ImageDialog extends DialogFragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.full_image_layout, container);
-        ImageView ivFullImage = (ImageView) view.findViewById(R.id.ivFullImage);
+        final ImageView ivFullImage = (ImageView) view.findViewById(R.id.ivFullImage);
         TextView tvFullTitle = (TextView) view.findViewById(R.id.tvFullTitle);
 
         //ivFullImage.setImageResource(0);
@@ -52,7 +52,7 @@ public class ImageDialog extends DialogFragment {
             @Override
             public void onSuccess() {
                 //Setup the share intent after the image is loaded
-                ((SearchActivity)getActivity()).setupShareIntent();
+                ((SearchActivity)getActivity()).setupShareIntent(ivFullImage);
             }
 
             @Override
@@ -66,7 +66,7 @@ public class ImageDialog extends DialogFragment {
         // Get rid of the title on the full screen images
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         //getDialog().setCancelable(true);
-        getDialog().setCanceledOnTouchOutside(true);
+        //getDialog().setCanceledOnTouchOutside(true);
 
         return view;
     }
