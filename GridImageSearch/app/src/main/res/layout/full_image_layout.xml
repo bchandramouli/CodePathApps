@@ -13,12 +13,10 @@
         android:background="?attr/colorPrimary">
     </android.support.v7.widget.Toolbar>
 
-    <ImageView
+    <or.connect.gridimagesearch.activities.TouchImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:minWidth="125dp"
-        android:minHeight="125dp"
         android:layout_margin="10dp"
         android:adjustViewBounds="true"
         android:id="@+id/ivFullImage" />

@@ -1,16 +1,11 @@
 package or.connect.gridimagesearch.activities;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -18,13 +13,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.etsy.android.grid.StaggeredGridView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -46,7 +39,7 @@ import or.connect.gridimagesearch.models.ImageResult;
 public class SearchActivity extends ActionBarActivity implements FilterDialog.OnSaveListener {
 
     //private EditText etQuery;
-    private GridView gvResults;
+    private StaggeredGridView gvResults;
 
     private ArrayList<ImageResult> imageResults;
     private ImageResultsAdapter imageResultsAdapter;
@@ -271,7 +264,7 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
 
     private void setupViews() {
         //etQuery = (EditText) findViewById(R.id.etQuery);
-        gvResults = (GridView) findViewById(R.id.gvResults);
+        gvResults = (StaggeredGridView) findViewById(R.id.gvResults);
 
         gvResults.setOnScrollListener(new EndlessScrollListener() {
             @Override

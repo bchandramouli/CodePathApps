@@ -27,7 +27,7 @@ import or.connect.gridimagesearch.R;
 public class FullImageActivity extends ActionBarActivity {
 
     private android.support.v7.widget.ShareActionProvider miShareAction;
-    private ImageView ivFullImage;
+    private TouchImageView ivFullImage;
     private TextView tvFullTitle;
 
 
@@ -54,7 +54,7 @@ public class FullImageActivity extends ActionBarActivity {
         Toolbar tb = (Toolbar) findViewById(R.id.tbFull);
         setSupportActionBar(tb);
 
-        ivFullImage = (ImageView) findViewById(R.id.ivFullImage);
+        ivFullImage = (TouchImageView) findViewById(R.id.ivFullImage);
         tvFullTitle = (TextView) findViewById(R.id.tvFullTitle);
 
         ivFullImage.setImageResource(0);
@@ -77,7 +77,7 @@ public class FullImageActivity extends ActionBarActivity {
     }
 
     // Returns the URI path to the Bitmap displayed in specified ImageView
-    public Uri getLocalBitmapUri(ImageView imageView) {
+    public Uri getLocalBitmapUri(TouchImageView imageView) {
         // Extract Bitmap from ImageView drawable
         Drawable drawable = imageView.getDrawable();
         Bitmap bmp;
@@ -100,8 +100,7 @@ public class FullImageActivity extends ActionBarActivity {
     public void setupShareIntent() {
         // Fetch Bitmap Uri locally
 
-        ImageView ivImage = (ImageView)findViewById(R.id.ivFullImage);
-        Uri bmpUri = getLocalBitmapUri(ivImage); // see previous remote images section
+        Uri bmpUri = getLocalBitmapUri(ivFullImage); // see previous remote images section
 
         if (bmpUri != null) {
             // Create share intent as described above
