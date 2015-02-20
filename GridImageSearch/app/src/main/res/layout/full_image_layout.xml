@@ -16,7 +16,9 @@
     <or.connect.gridimagesearch.activities.TouchImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
+        android:minHeight="250dp"
+        android:minWidth="250dp"
         android:layout_margin="10dp"
         android:adjustViewBounds="true"
         android:id="@+id/ivFullImage" />
@@ -25,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvFullTitle"
-        android:text="@string/caption"
         android:ellipsize="end"
         android:maxLines="3"/>
 
