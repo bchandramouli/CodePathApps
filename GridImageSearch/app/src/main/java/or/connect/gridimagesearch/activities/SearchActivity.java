@@ -59,11 +59,10 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
     private String site_filter = "all";
     private int image_count = 0;
 
-    public boolean firstReq = true;
+    private boolean firstReq = true;
+    private int startPage = 0;
 
-    private String sQuery = "Android";
-
-    private android.support.v7.widget.ShareActionProvider miShareAction;
+    private String sQuery = "Fall";
 
     public String getColor_filter() {
         return color_filter;
@@ -106,9 +105,11 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
 
         if (page > 0) {
             // Start page for endless pagination
-            params.put("start", page);
             firstReq = false;
+            startPage += 8;
+            params.put("start", startPage);
         } else {
+            startPage = 0;
             firstReq = true;
         }
 
@@ -117,22 +118,22 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
             params.put("rsz", image_count);
         }
 
-        if (image_size != "any") {
+        if (!image_size.equals("any")) {
             // image size filter
             params.put("imgsz", image_size);
         }
 
-        if (color_filter != "any") {
+        if (!color_filter.equals("any")) {
             // colors - blue, black, red, ...
             params.put("imgcolor", color_filter);
         }
 
-        if (image_type != "any") {
+        if (!image_type.equals("any")) {
             // type - icon, small, medium, large, huge, ...
             params.put("imgtype", image_type);
         }
 
-        if (site_filter != "all") {
+        if (!site_filter.equals("all")) {
             // site - espn.com, ...
             params.put("as_sitesearch", site_filter);
         }
@@ -154,7 +155,6 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
             boolean reachable = (returnVal == 0);
             return reachable;
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return true;
         }
@@ -202,7 +202,6 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
 
                     JSONArray resultArr = responseData.getJSONArray("results");
 
-                    // TODO - why does this not work for the first time to display infinite images?
                     if (firstReq) { // clear the existing images (only for new search!)
                         imageResults.clear();
                     }
@@ -234,8 +233,6 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
 
         // Locate MenuItem with ShareActionProvider
         MenuItem item = menu.findItem(R.id.menu_item_share);
-        // Fetch reference to the share action provider
-        miShareAction = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(item);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -274,45 +271,6 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
         searchQuery(0);
     }
 
-    // Returns the URI path to the Bitmap displayed in specified ImageView
-    public Uri getLocalBitmapUri(ImageView imageView) {
-        // Extract Bitmap from ImageView drawable
-        Drawable drawable = imageView.getDrawable();
-        Bitmap bmp = null;
-        if (drawable instanceof BitmapDrawable) {
-            bmp = ((BitmapDrawable)drawable).getBitmap();
-        } else {
-            return null;
-        }
-
-        ContentResolver cr = SearchActivity.this.getContentResolver();
-        String path = MediaStore.Images.Media.insertImage(cr, bmp, "Description", null);
-
-        if (path == null) {
-            return null;
-        } else {
-            return(Uri.parse(path));
-        }
-    }
-
-    // Gets the image URI and setup the associated share intent to hook into the provider
-    public void setupShareIntent(ImageView ivImage) {
-        // Fetch Bitmap Uri locally
-
-        //ImageView ivImage = (ImageView)findViewById(R.id.ivFullImage);
-        Uri bmpUri = getLocalBitmapUri(ivImage); // see previous remote images section
-
-        if (bmpUri != null) {
-            // Create share intent as described above
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-            shareIntent.setType("image/*");
-            // Attach share event to the menu item provider
-            miShareAction.setShareIntent(shareIntent);
-        }
-    }
-
     private void setupViews() {
         //etQuery = (EditText) findViewById(R.id.etQuery);
         gvResults = (GridView) findViewById(R.id.gvResults);
@@ -321,7 +279,7 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 // Triggered when new data needs to be loaded
-                searchQuery(page);
+                searchQuery(totalItemsCount);
                 // or customLoadMoreDataFromApi(totalItemsCount);
             }
         });
@@ -349,9 +307,12 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
         int position = gvResults.getPositionForView((View) v.getParent());
         ImageResult image = imageResults.get(position);
 
-        FragmentManager fm = getSupportFragmentManager();
-        ImageDialog imageDialog = ImageDialog.newInstance(image.fullUrl, image.title);
-        imageDialog.show(fm, "larger_image");
+        Intent i = new Intent(SearchActivity.this, FullImageActivity.class);
+
+        i.putExtra("full_url", image.fullUrl);
+        i.putExtra("caption", image.title);
+
+        startActivity(i);
     }
 
     /*
