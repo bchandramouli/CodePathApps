@@ -17,6 +17,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import or.connect.gridimagesearch.R;
+import or.connect.gridimagesearch.activities.FullImageActivity;
 import or.connect.gridimagesearch.activities.SearchActivity;
 
 /**
@@ -52,7 +53,7 @@ public class ImageDialog extends DialogFragment {
             @Override
             public void onSuccess() {
                 //Setup the share intent after the image is loaded
-                ((SearchActivity)getActivity()).setupShareIntent(ivFullImage);
+                ((FullImageActivity)getActivity()).setupShareIntent();
             }
 
             @Override

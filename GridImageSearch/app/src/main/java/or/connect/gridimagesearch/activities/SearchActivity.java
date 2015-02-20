@@ -34,14 +34,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.Provider;
 import java.util.ArrayList;
 
 import abstract_classes.EndlessScrollListener;
 import or.connect.gridimagesearch.R;
 import or.connect.gridimagesearch.adapters.ImageResultsAdapter;
 import or.connect.gridimagesearch.fragments.FilterDialog;
-import or.connect.gridimagesearch.fragments.ImageDialog;
 import or.connect.gridimagesearch.models.ImageResult;
 
 
@@ -285,7 +283,7 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
         });
 
         //Set a toolbar to replace the ActionBar;
-        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar tb = (Toolbar) findViewById(R.id.tbSearch);
         setSupportActionBar(tb);
 
         // Create data source - to hold the image search results
@@ -309,7 +307,7 @@ public class SearchActivity extends ActionBarActivity implements FilterDialog.On
 
         Intent i = new Intent(SearchActivity.this, FullImageActivity.class);
 
-        i.putExtra("full_url", image.fullUrl);
+        i.putExtra("full_image", image.fullUrl);
         i.putExtra("caption", image.title);
 
         startActivity(i);

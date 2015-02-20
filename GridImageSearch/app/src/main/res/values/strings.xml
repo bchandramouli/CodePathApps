@@ -17,5 +17,5 @@
     <string name="filter">Filter</string>
     <string name="lookup">Lookup</string>
     <string name="share">Share</string>
-
+    <string name="full_image_activity">Fullscreen</string>
 </resources>
