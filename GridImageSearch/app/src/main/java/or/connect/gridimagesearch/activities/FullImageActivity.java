@@ -64,8 +64,8 @@ public class FullImageActivity extends ActionBarActivity {
             @Override
             public void onSuccess() {
                 //Setup the share intent after the image is loaded
-                setupShareIntent();
                 tvFullTitle.setText(getIntent().getStringExtra("caption"));
+                setupShareIntent();
             }
 
             @Override
