@@ -1,4 +1,4 @@
-# CodePathApps - Instagram Popular Photo Viewer
+#CodePathApps - Instagram Popular Photo Viewer
 CodePath app submission - observer group
 
 This is an Adroid application for popular Instagram photos. 
@@ -24,6 +24,6 @@ Notes (Next steps):
 
 Walkthrough of all user stories:
 
-![ScreenShot](***)
+![ScreenShot](https://github.com/bchandramouli/CodePathApps/blob/master/GridImageSearch/GridImageSearch.gif)
 
 GIF created with LiceCap.
