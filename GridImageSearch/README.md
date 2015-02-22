@@ -1,7 +1,7 @@
-#CodePathApps - Instagram Popular Photo Viewer
+#CodePathApps - Google Image Viewer
 CodePath app submission - observer group
 
-This is an Adroid application for popular Instagram photos. 
+This is an Adroid application for Google Image Viewer
 
 Time spent: 24 hours 
 
