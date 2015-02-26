@@ -1,11 +1,12 @@
 package com.codepath.apps.Tweeter;
 
+import org.json.JSONObject;
 import org.scribe.builder.api.Api;
-import org.scribe.builder.api.FlickrApi;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
 
+import com.codepath.apps.Tweeter.models.User;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -33,8 +34,8 @@ public class TwitterClient extends OAuthBaseClient {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 
-
-    public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+    public void getHomeTimeline(int count, long since_id, long max_id,
+                                AsyncHttpResponseHandler handler) {
         /*
          * GET https://api.twitter.com/1.1/statuses/home_timeline.json
          *    - count = 25
@@ -44,11 +45,28 @@ public class TwitterClient extends OAuthBaseClient {
         String apiUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json";
 
         RequestParams params = new RequestParams();
-        params.put("count", 25);
-        params.put("since_id", 1);
+        params.put("count", count);
+        params.put("since_id", since_id);
+        if (max_id > Long.MIN_VALUE) {
+            // If it is the first query - skip the max_id - https://dev.twitter.com/rest/public/timelines
+            params.put("max_id", max_id);
+        }
 
         getClient().get(apiUrl, params, handler);
     }
 
-    // Composing a new tweet
+    // Composing a new display_tweets
+    public void postTweet(String status, long reply_status_id,
+                          AsyncHttpResponseHandler handler) {
+        String apiUrl = "https://api.twitter.com/1.1/statuses/update.json";
+
+        RequestParams params = new RequestParams();
+
+        params.put("status", status);
+        if (reply_status_id != 0) {
+            params.put("in_reply_to_status_id", reply_status_id);
+        }
+
+        getClient().post(apiUrl, params, handler);
+    }
 }

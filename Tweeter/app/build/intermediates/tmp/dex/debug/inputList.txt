@@ -1,11 +1,12 @@
 /Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/classes/debug
-/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-fb394c6e92d1c9a5930d1322f2facc78ec461a16.jar
+/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-03902aefbec318a32cd068b0a7880380facb5f37.jar
 /Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/codepath-utils-3c7bb4ddef8522eafc735748093436aa80abadb1.jar
+/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/classes-2f55d90d6d7cd8f7c7bdc9fc107630aa81656a28.jar
 /Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/codepath-oauth-0.4.1-0e196567bd1041f5e9b08e7fbb83eea71b60b0dc.jar
 /Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/ActiveAndroid-3.1-08c6335cd-1800025abcdc49b629092f6ce89d3e0dd037a82c.jar
 /Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/scribe-codepath-0.0.3-4ed66429b4759533bdef9b082873c81053d3a87f.jar
 /Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.6-dbd95ef690c4e9ef51152c82dcdda2a76b293429.jar
 /Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/picasso-2.4.0-07340b20a08482089d96ce7e68d3a0f99998a427.jar
-/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-86fd90e2f78866ea1ffcf5cd895404a3a6eb8477.jar
+/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-ed8f4b7f6016d7ecb2093ff4fdb146551e3a5130.jar
 /Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/classes-214ee884fa0b5ceadd76cf9f6e70506f66d65d6d.jar
-/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/classes-238bbe3167e3acf17169505f355992fc76d7d3ff.jar
+/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/pre-dexed/debug/classes-481e853cb91df2e1df8585e7326ef5c984204227.jar

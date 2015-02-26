@@ -1,80 +1,116 @@
 package com.codepath.apps.Tweeter;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
-import com.codepath.apps.Tweeter.R;
+import com.codepath.apps.Tweeter.Abstract.EndlessScrollListener;
+import com.codepath.apps.Tweeter.Adapters.TweetArrayAdapter;
+import com.codepath.apps.Tweeter.Fragments.TweetDialog;
+import com.codepath.apps.Tweeter.models.QueryCtrs;
+import com.codepath.apps.Tweeter.models.Tweet;
+import com.codepath.apps.Tweeter.models.User;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class TimelineActivity extends ActionBarActivity {
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class TimelineActivity extends ActionBarActivity implements TweetDialog.OnSaveListener {
 
     private TwitterClient client;
+    private ArrayList<Tweet> tweets;
+    private TweetArrayAdapter aTweets;
+    private ListView lvTweets;
+
+    private QueryCtrs queryCtrs = QueryCtrs.getInstance();
+
+    private Boolean networkAvailable() {
+
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnectedOrConnecting());
+    }
+
+    @Override
+    public void onPostTweet(String post, long reply_id) {
+
+        // Send the post to twitter first.
+        client.postTweet(post, reply_id, new JsonHttpResponseHandler() {
+            // Success
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Parse the JSON Array for the details.
+                aTweets.add(Tweet.tweetFromJsonObj(response));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //failure case
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-        client = TwitterApp.getRestClient();
-        populateTimeline();
-    }
 
-    private void timelineParseJsonArray() {
-        /* JsonResponse
-        [
-          {
-                "created_at": "Tue Aug 28 21:16:23 +0000 2012",
-                "favorited": false,
-                "text": "just another test",
-                "source": "<a href="//realitytechnicians.com\"" rel="\"nofollow\"">OAuth Dancer Reborn</a>",
-                "user": {
-                      "name": "OAuth Dancer",
-                      "profile_image_url":"http://a0.twimg.com/profile_images/730275945/oauth-dancer_normal.jpg",
-                      "created_at": "Wed Mar 03 19:37:35 +0000 2010",
-                      "location": "San Francisco, CA",
+        //Set a toolbar to replace the ActionBar;
+        Toolbar tb = (Toolbar) findViewById(R.id.tbShare);
+        setSupportActionBar(tb);
 
-                      "default_profile": false,
+        // find the listView
+        lvTweets = (ListView) findViewById(R.id.lvTweets);
+        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered when new data needs to be loaded
+                populateTimeline();
+                // or customLoadMoreDataFromApi(totalItemsCount);
+            }
+        });
 
-                      "url": "http://bit.ly/oauth-dancer",
-                      "profile_image_url_https":"https://si0.twimg.com/profile_images/730275945/oauth-dancer_normal.jpg",
+        // Create the array list
+        tweets = new ArrayList<>();
+        //create the adapter from the data source
+        aTweets = new TweetArrayAdapter(this, tweets);
 
-                      "profile_use_background_image": true,
-                      "profile_text_color": "333333",
+        // hookup the adapter to the list view
+        lvTweets.setAdapter(aTweets);
 
-                      "followers_count": 28,
-
-                      "profile_background_color": "C0DEED",
-
-                      "profile_background_image_url_https":"https://si0.twimg.com/profile_background_images/80151733/oauth-dance.png",
-                      "statuses_count": 166,
-                      "profile_background_image_url":"http://a0.twimg.com/profile_background_images/80151733/oauth-dance.png",
-
-                      "friends_count": 14,
-                      "screen_name": "oauth_dancer"
-                    },
-             },
-        ]
-        */
-
-
-
-
+        if (networkAvailable()) {
+            /* Perform a network request */
+            client = TwitterApp.getRestClient();
+            populateTimeline();
+        } else {
+            /* Get from local DB - TODO */
+        }
     }
 
     /* Parse the JSON Array and fill the data model */
     private void populateTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+
+        client.getHomeTimeline(queryCtrs.getCount(), queryCtrs.getSinceId(), queryCtrs.getMaxId(),
+                new JsonHttpResponseHandler() {
             // Success
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // Parse the JSON Array for the details.
-                timelineParseJsonArray(response);
+                aTweets.addAll(Tweet.fromJsonArray(response));
             }
 
             @Override
@@ -91,18 +127,28 @@ public class TimelineActivity extends ActionBarActivity {
         return true;
     }
 
+    private void setupNewTweet(long reply_id) {
+        FragmentManager fm = getSupportFragmentManager();
+        TweetDialog tweetDialog = TweetDialog.newInstance(reply_id);
+        // TODO - This needs to pass the User object!!!
+        tweetDialog.show(fm, "new_tweet");
+    }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem mi) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        // Handle presses on the action bar items
+        switch (mi.getItemId()) {
+            case R.id.miShare:
+                setupNewTweet(0);
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(mi);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
