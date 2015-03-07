@@ -35,6 +35,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvBody;
         TextView tvRetweets;
         TextView tvFavorites;
+        ImageView ivMedia;
     };
 
 
@@ -88,6 +89,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvBody = (TextView)convertView.findViewById(R.id.tvBody);
             viewHolder.tvRetweets = (TextView)convertView.findViewById(R.id.tvRetweets);
             viewHolder.tvFavorites = (TextView)convertView.findViewById(R.id.tvFavorites);
+            viewHolder.ivMedia = (ImageView)convertView.findViewById(R.id.ivMedia);
 
             convertView.setTag(viewHolder);
 
@@ -102,13 +104,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
          */
         viewHolder.ivUserProfile.setImageResource(0);
 
-        //Picasso.with(getContext()).load(photo.userProfileUrl).fit().transform(new CircleTransform()).into(ivUserProfile);
-        Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(40)
-                .oval(false)
-                .build();
         Picasso.with(getContext()).load(tweet.getUser().getProfile_url()).
-                //transform(transformation).fit().
                 into(viewHolder.ivUserProfile);
 
         // insert the model data into the view
@@ -128,6 +124,12 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvFavorites.setText(Integer.toString(tweet.getFavorites()));
         } else {
             viewHolder.tvFavorites.setVisibility(View.INVISIBLE);
+        }
+
+        if (tweet.getMediaUrl().equals("")) {
+            viewHolder.ivMedia.setVisibility(View.INVISIBLE);
+        } else {
+            Picasso.with(getContext()).load(tweet.getMediaUrl()).into(viewHolder.ivMedia);
         }
 
         // return the convertView

@@ -20,7 +20,7 @@ public class Tweet implements Parcelable {
     private String timestamp;
     private int favorites;
     private int retweets;
-
+    private String mediaUrl;
 
     public String getBody() {
         return body;
@@ -46,6 +46,13 @@ public class Tweet implements Parcelable {
         return retweets;
     }
 
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
     /*
          {
              "created_at": "Tue Aug 28 21:16:23 +0000 2012",
@@ -83,6 +90,15 @@ public class Tweet implements Parcelable {
                tweet.favorites = jsonTweet.getInt("favourites_count");
            } catch (JSONException e) {
                tweet.favorites = 0;
+           }
+
+           try {
+               JSONArray media = jsonTweet.getJSONObject("extended_entities").getJSONArray("media");
+               for (int i = 0; i < media.length(); i++) {
+                   tweet.mediaUrl = media.getJSONObject(i).getString("media_url");
+               }
+           } catch (JSONException e) {
+               tweet.mediaUrl = "";
            }
 
            queryCtrs.setSinceId(tweet.getId());
@@ -128,18 +144,12 @@ public class Tweet implements Parcelable {
         dest.writeString(this.body);
         dest.writeLong(this.id);
         dest.writeParcelable(this.user, 0);
-        dest.writeString(this.timestamp);
-        dest.writeInt(this.favorites);
-        dest.writeInt(this.retweets);
     }
 
     private Tweet(Parcel in) {
         this.body = in.readString();
         this.id = in.readLong();
         this.user = in.readParcelable(User.class.getClassLoader());
-        this.timestamp = in.readString();
-        this.favorites = in.readInt();
-        this.retweets = in.readInt();
     }
 
     public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
