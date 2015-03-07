@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tbSearch"
-        app:item_margin="8dp"
+        app:item_margin="4dp"
         app:column_count="3" />
 
     <!-- <GridView

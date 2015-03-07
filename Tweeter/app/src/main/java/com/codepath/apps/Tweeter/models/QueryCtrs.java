@@ -9,6 +9,11 @@ public class QueryCtrs {
 
     private int count = 25;
 
+    private static QueryCtrs instance = null;
+
+    protected QueryCtrs() {
+    }
+
     public long getSinceId() {
         return sinceId;
     }
@@ -36,10 +41,6 @@ public class QueryCtrs {
     public void setCount(int count) {
         this.count = count;
     }
-
-    private static QueryCtrs instance = null;
-
-    protected QueryCtrs() {}
 
     public static QueryCtrs getInstance() {
         if (instance == null) {

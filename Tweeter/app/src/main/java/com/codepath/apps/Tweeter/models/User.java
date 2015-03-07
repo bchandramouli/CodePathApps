@@ -1,5 +1,8 @@
 package com.codepath.apps.Tweeter.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,11 +11,44 @@ import org.json.JSONObject;
  */
 
 
-public class User {
+public class User implements Parcelable {
     private String name;
-    private String profile_url;
     private long uid;
+    private String profile_url;
     private String handle;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(name);
+        out.writeLong(uid);
+        out.writeString(profile_url);
+        out.writeString(handle);
+    }
+
+    public static final Parcelable.Creator<User> CREATOR
+            = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    private User(Parcel in) {
+        name = in.readString();
+        uid = in.readLong();
+        profile_url = in.readString();
+        handle = in.readString();
+    }
 
     public String getName() {
         return name;

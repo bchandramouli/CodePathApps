@@ -218,7 +218,6 @@ public class PopularPhotos extends ActionBarActivity {
         InstagramPhoto photo = photoList.get(position);
 
         if (photo.commentCount > 0) {
-            /* Using serializable in place of Parcelable - TODO */
             Intent i = new Intent(PopularPhotos.this, FragmentComment.class);
             i.putExtra("comments_wrapper", new CommentWrapper(photo.comments));
             startActivity(i);

@@ -33,8 +33,6 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvUserHandle;
         TextView tvTimeStamp;
         TextView tvBody;
-        TextView tvTweetUrl;
-        ImageView ivTweetImage;
         TextView tvRetweets;
         TextView tvFavorites;
     };
@@ -88,9 +86,6 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvUserHandle = (TextView)convertView.findViewById(R.id.tvUserHandle);
             viewHolder.tvTimeStamp = (TextView)convertView.findViewById(R.id.tvTimeStamp);
             viewHolder.tvBody = (TextView)convertView.findViewById(R.id.tvBody);
-            viewHolder.tvTweetUrl = (TextView)convertView.findViewById(R.id.tvTweetUrl);
-            viewHolder.ivUserProfile = (ImageView)convertView.findViewById(R.id.ivUserProfile);
-            viewHolder.ivTweetImage = (ImageView)convertView.findViewById(R.id.ivTweetImage);
             viewHolder.tvRetweets = (TextView)convertView.findViewById(R.id.tvRetweets);
             viewHolder.tvFavorites = (TextView)convertView.findViewById(R.id.tvFavorites);
 
@@ -122,10 +117,6 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 
         viewHolder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.getTimestamp()));
         viewHolder.tvBody.setText(tweet.getBody());
-
-        // XXX - Needs fixing - profile URL is not right!
-        //viewHolder.tvTweetUrl.setText(display_tweets.getUser().getProfile_url());
-        //viewHolder.ivTweetImage...
 
         if (tweet.getRetweets() > 0) {
             viewHolder.tvRetweets.setText(Integer.toString(tweet.getRetweets()));

@@ -1,22 +1,14 @@
 package or.connect.gridimagesearch.fragments;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.graphics.ColorFilter;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import or.connect.gridimagesearch.R;
 import or.connect.gridimagesearch.activities.SearchActivity;

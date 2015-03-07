@@ -34,31 +34,61 @@ public class TwitterClient extends OAuthBaseClient {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 
-    public void getHomeTimeline(int count, long since_id, long max_id,
+    public void getHomeTimeline(int count, long max_id,
                                 AsyncHttpResponseHandler handler) {
         /*
          * GET https://api.twitter.com/1.1/statuses/home_timeline.json
          *    - count = 25
-         *    - since_id = 1 // returns the most recent tweets.
+         *    - max_id = 1 // Returns the tweets less than max_id!
          */
 
-        String apiUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json";
+        String apiUrl = REST_URL + "statuses/home_timeline.json";
 
         RequestParams params = new RequestParams();
         params.put("count", count);
-        params.put("since_id", since_id);
+
         if (max_id > Long.MIN_VALUE) {
-            // If it is the first query - skip the max_id - https://dev.twitter.com/rest/public/timelines
             params.put("max_id", max_id);
         }
 
         getClient().get(apiUrl, params, handler);
     }
 
+    public void updateHomeTimeline(int count, long since_id,
+                                   AsyncHttpResponseHandler handler) {
+        /*
+         * GET https://api.twitter.com/1.1/statuses/home_timeline.json
+         *    - count = 25
+         *    - since_id = 1 // returns the most recent tweets.
+         */
+        String apiUrl = REST_URL + "statuses/home_timeline.json";
+
+        RequestParams params = new RequestParams();
+        params.put("count", count);
+
+
+        if (since_id > Long.MIN_VALUE) {
+            // If it is the first query - skip the since_id - https://dev.twitter.com/rest/public/timelines
+            params.put("since_id", since_id);
+        }
+
+        getClient().get(apiUrl, params, handler);
+    }
+
+    public void getUserSettings(AsyncHttpResponseHandler handler) {
+        /*
+         * GET https://api.twitter.com/1.1/account/verify_credentials.json
+         */
+        String apiUrl = REST_URL + "account/verify_credentials.json";
+
+        getClient().get(apiUrl, handler);
+    }
+
+
     // Composing a new display_tweets
     public void postTweet(String status, long reply_status_id,
                           AsyncHttpResponseHandler handler) {
-        String apiUrl = "https://api.twitter.com/1.1/statuses/update.json";
+        String apiUrl = REST_URL + "statuses/update.json";
 
         RequestParams params = new RequestParams();
 

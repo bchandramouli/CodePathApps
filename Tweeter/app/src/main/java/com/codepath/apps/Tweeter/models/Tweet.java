@@ -1,5 +1,8 @@
 package com.codepath.apps.Tweeter.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by moulib on 2/21/15.
  */
-public class Tweet {
+public class Tweet implements Parcelable {
     // display_tweets attributes
     private String body;
     private long id;
@@ -17,6 +20,7 @@ public class Tweet {
     private String timestamp;
     private int favorites;
     private int retweets;
+
 
     public String getBody() {
         return body;
@@ -64,11 +68,22 @@ public class Tweet {
            tweet.body = jsonTweet.getString("text");
            tweet.user = new User(jsonTweet.getJSONObject("user"));
 
-           boolean count = jsonTweet.getBoolean("retweeted");
-           tweet.retweets = count ? jsonTweet.getInt("retweet_count") : 0;
+           /* Use this to display retweet objects differently
+            * boolean count = jsonTweet.getBoolean("retweeted");
+            * count = jsonTweet.getBoolean("favorited");
+            */
 
-           count = jsonTweet.getBoolean("favorited");
-           tweet.favorites = (count) ? jsonTweet.getInt("favourites_count") : 0;
+           try {
+               tweet.retweets = jsonTweet.getInt("retweet_count");
+           } catch (JSONException e) {
+               tweet.retweets = 0;
+           }
+
+           try {
+               tweet.favorites = jsonTweet.getInt("favourites_count");
+           } catch (JSONException e) {
+               tweet.favorites = 0;
+           }
 
            queryCtrs.setSinceId(tweet.getId());
            queryCtrs.setMaxId(tweet.getId());
@@ -99,4 +114,41 @@ public class Tweet {
        }
        return arrList;
    }
+
+    public Tweet() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.body);
+        dest.writeLong(this.id);
+        dest.writeParcelable(this.user, 0);
+        dest.writeString(this.timestamp);
+        dest.writeInt(this.favorites);
+        dest.writeInt(this.retweets);
+    }
+
+    private Tweet(Parcel in) {
+        this.body = in.readString();
+        this.id = in.readLong();
+        this.user = in.readParcelable(User.class.getClassLoader());
+        this.timestamp = in.readString();
+        this.favorites = in.readInt();
+        this.retweets = in.readInt();
+    }
+
+    public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
+        public Tweet createFromParcel(Parcel source) {
+            return new Tweet(source);
+        }
+
+        public Tweet[] newArray(int size) {
+            return new Tweet[size];
+        }
+    };
 }

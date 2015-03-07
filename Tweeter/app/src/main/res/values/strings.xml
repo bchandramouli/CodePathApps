@@ -10,5 +10,6 @@
     <!-- do not modify the value of this string -->
     <string name="dummy">dum</string>
     <string name="share">Tweet</string>
+    <string name="_140_chars">140</string>
 
 </resources>

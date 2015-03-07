@@ -65,24 +65,6 @@
         android:layout_toRightOf="@+id/ivUserProfile"
         android:layout_toEndOf="@+id/ivUserProfile"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/empty_text"
-        android:id="@+id/tvTweetUrl"
-        android:autoLink="all"
-        android:layout_below="@+id/tvBody"
-        android:layout_toRightOf="@+id/ivUserProfile"
-        android:layout_toEndOf="@+id/ivUserProfile"/>
-
-    <!-- optional - if present -->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivTweetImage"
-        android:layout_below="@+id/tvTweetUrl"
-        android:layout_toRightOf="@+id/ivUserProfile"
-        android:layout_toEndOf="@+id/ivUserProfile"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -90,7 +72,7 @@
         android:id="@+id/rlTweetCounters"
         android:layout_toRightOf="@+id/ivUserProfile"
         android:layout_toEndOf="@+id/ivUserProfile"
-        android:layout_below="@+id/ivTweetImage">
+        android:layout_below="@+id/tvBody">
 
         <TextView
             android:layout_width="wrap_content"
@@ -141,6 +123,7 @@
             android:minHeight="20dp"
             android:minWidth="20dp"
             android:adjustViewBounds="true"
+            android:onClick="onReTweet"
             android:layout_alignBottom="@+id/tvRetweets"
             android:layout_alignTop="@+id/tvRetweets"
             android:layout_alignRight="@+id/tvDummy2"

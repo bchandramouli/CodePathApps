@@ -144,6 +144,11 @@
     <item name="split_action_bar" type="id"/>
     <item name="up" type="id"/>
     <integer name="abc_max_action_buttons">2</integer>
+    <!-- From: file:/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="_140_chars">140</string>
+    <!-- From: file:/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <eat-comment/>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
     <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>

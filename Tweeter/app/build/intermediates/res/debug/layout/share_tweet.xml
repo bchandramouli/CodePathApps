@@ -15,14 +15,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ivUserProfile"
-            android:minHeight="30dp"
-            android:minWidth="30dp"
+            android:minHeight="50dp"
+            android:minWidth="50dp"
+            android:layout_alignTop="@+id/tvUserName"
+            android:layout_alignBottom="@+id/tvUserHandle"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:text="@string/empty_text"
@@ -51,6 +54,17 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvCounter"
+            android:hint="@string/_140_chars"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@+id/btSend"
+            android:layout_alignTop="@+id/tvUserName"
+            android:layout_alignBottom="@+id/ivUserProfile"
+            android:layout_toLeftOf="@+id/btSend" />
+
     </RelativeLayout>
 
     <EditText
@@ -58,6 +72,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/etTweetBody"
         android:layout_below="@id/rlUserProfile"
-        android:layout_alignParentBottom="true" />
+        android:maxLength="140"/>
 
 </RelativeLayout><!-- From: file:/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/src/main/res/layout/share_tweet.xml -->

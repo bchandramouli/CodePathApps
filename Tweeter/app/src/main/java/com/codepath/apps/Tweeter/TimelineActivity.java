@@ -4,11 +4,13 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.codepath.apps.Tweeter.Abstract.EndlessScrollListener;
@@ -17,16 +19,13 @@ import com.codepath.apps.Tweeter.Fragments.TweetDialog;
 import com.codepath.apps.Tweeter.models.QueryCtrs;
 import com.codepath.apps.Tweeter.models.Tweet;
 import com.codepath.apps.Tweeter.models.User;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TimelineActivity extends ActionBarActivity implements TweetDialog.OnSaveListener {
 
@@ -34,6 +33,9 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
     private ArrayList<Tweet> tweets;
     private TweetArrayAdapter aTweets;
     private ListView lvTweets;
+    private User self;
+
+    private SwipeRefreshLayout swipeContainer;
 
     private QueryCtrs queryCtrs = QueryCtrs.getInstance();
 
@@ -45,16 +47,94 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
         return (netInfo != null && netInfo.isConnectedOrConnecting());
     }
 
+    private void setupNewTweet(Tweet tweet) {
+        FragmentManager fm = getSupportFragmentManager();
+        TweetDialog tweetDialog = TweetDialog.newInstance(tweet, self);
+        tweetDialog.show(fm, "new_tweet");
+    }
+
+    public void onReTweet(View v) {
+        ListView lvTweets = (ListView) findViewById(R.id.lvTweets);
+        int position = lvTweets.getPositionForView((View)v.getParent());
+        Tweet tweet = tweets.get(position);
+        setupNewTweet(tweet);
+    }
+
+    // Get the current user
+    private void getCurrentUser() {
+        client.getUserSettings(new JsonHttpResponseHandler() {
+            // Success
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Parse the JSON User Object for the details.
+                self = new User(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //failure case
+            }
+        });
+    }
+
+    /* Parse the JSON Array and fill the data model */
+    private void updateTimeline() {
+
+        client.updateHomeTimeline(queryCtrs.getCount(), queryCtrs.getSinceId(),
+            new JsonHttpResponseHandler() {
+                // Success
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    // Parse the JSON Array for the details.
+                    // Insert in the front!
+                    tweets.addAll(0, Tweet.fromJsonArray(response));
+                    aTweets.notifyDataSetChanged();
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    swipeContainer.setRefreshing(false);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    //failure case
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    swipeContainer.setRefreshing(false);
+                }
+            });
+    }
+
     @Override
     public void onPostTweet(String post, long reply_id) {
-
         // Send the post to twitter first.
         client.postTweet(post, reply_id, new JsonHttpResponseHandler() {
             // Success
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Parse the JSON Array for the details.
-                aTweets.add(Tweet.tweetFromJsonObj(response));
+                updateTimeline();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //failure case
+            }
+        });
+    }
+
+
+    /* Parse the JSON Array and fill the data model */
+    private void populateTimeline(int count) {
+
+        if (count == 0) {
+            count = queryCtrs.getCount();
+        }
+
+        client.getHomeTimeline(count, queryCtrs.getMaxId(), new JsonHttpResponseHandler() {
+            // Success
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                // Parse the JSON Array for the details.
+                tweets.addAll(Tweet.fromJsonArray(response));
+                aTweets.notifyDataSetChanged();
             }
 
             @Override
@@ -69,6 +149,21 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        swipeContainer = (SwipeRefreshLayout)findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateTimeline();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
         //Set a toolbar to replace the ActionBar;
         Toolbar tb = (Toolbar) findViewById(R.id.tbShare);
         setSupportActionBar(tb);
@@ -79,7 +174,7 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 // Triggered when new data needs to be loaded
-                populateTimeline();
+                populateTimeline(totalItemsCount);
                 // or customLoadMoreDataFromApi(totalItemsCount);
             }
         });
@@ -95,43 +190,19 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
         if (networkAvailable()) {
             /* Perform a network request */
             client = TwitterApp.getRestClient();
-            populateTimeline();
+            getCurrentUser();
+            populateTimeline(0);
         } else {
             /* Get from local DB - TODO */
         }
     }
 
-    /* Parse the JSON Array and fill the data model */
-    private void populateTimeline() {
-
-        client.getHomeTimeline(queryCtrs.getCount(), queryCtrs.getSinceId(), queryCtrs.getMaxId(),
-                new JsonHttpResponseHandler() {
-            // Success
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                // Parse the JSON Array for the details.
-                aTweets.addAll(Tweet.fromJsonArray(response));
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //failure case
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_timeline, menu);
         return true;
-    }
-
-    private void setupNewTweet(long reply_id) {
-        FragmentManager fm = getSupportFragmentManager();
-        TweetDialog tweetDialog = TweetDialog.newInstance(reply_id);
-        // TODO - This needs to pass the User object!!!
-        tweetDialog.show(fm, "new_tweet");
     }
 
     @Override
@@ -143,7 +214,7 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
         // Handle presses on the action bar items
         switch (mi.getItemId()) {
             case R.id.miShare:
-                setupNewTweet(0);
+                setupNewTweet(null);
                 return true;
             case R.id.action_settings:
                 return true;
