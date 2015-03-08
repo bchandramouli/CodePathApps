@@ -13,7 +13,6 @@ Completed user stories:
 ** Posts to twitter, back to homeline with new tweet, run-down character count
 * [x] Optional - swipe refresh
 * [x] Optional - reply to a tweet
-* [x] Optional - sqlite persistence
 * [x] Bonus - modal overlay for new tweets
 * [X] Bonus - see embedded image media
 

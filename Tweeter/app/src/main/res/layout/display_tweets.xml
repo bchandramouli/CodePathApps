@@ -13,7 +13,8 @@
         android:layout_margin="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/user_profile" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -67,17 +68,29 @@
         android:layout_toRightOf="@+id/ivUserProfile"
         android:layout_toEndOf="@+id/ivUserProfile"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_text"
+        android:id="@+id/tvDummy"
+        android:visibility="invisible"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_toRightOf="@+id/ivUserProfile"
+        android:layout_toEndOf="@+id/ivUserProfile"/>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivMedia"
-        android:layout_below="@id/tvBody"
-        android:maxHeight="35dp"
-        android:maxWidth="35dp"
+        android:visibility="invisible"
+        android:layout_alignTop="@id/tvDummy"
         android:layout_toRightOf="@+id/ivUserProfile"
         android:layout_toEndOf="@+id/ivUserProfile"
         android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/media" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -85,7 +98,7 @@
         android:id="@+id/rlTweetCounters"
         android:layout_toRightOf="@+id/ivUserProfile"
         android:layout_toEndOf="@+id/ivUserProfile"
-        android:layout_below="@+id/ivMedia">
+        android:layout_below="@id/tvDummy">
 
         <TextView
             android:layout_width="wrap_content"

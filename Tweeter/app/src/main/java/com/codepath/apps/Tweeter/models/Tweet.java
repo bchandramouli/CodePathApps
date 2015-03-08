@@ -9,25 +9,43 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 /**
  * Created by moulib on 2/21/15.
  */
-public class Tweet implements Parcelable {
+@Table(name = "Tweets")
+public class Tweet extends Model implements Parcelable {
     // display_tweets attributes
+    @Column(name = "id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    private long uId;
+
+    @Column(name = "body")
     private String body;
-    private long id;
+
+    @Column(name = "user")
     private User user;
+
+    @Column(name = "timestamp")
     private String timestamp;
+
+    @Column(name = "favorites")
     private int favorites;
+
+    @Column(name = "retweets")
     private int retweets;
+
+    @Column(name = "mediaUrl")
     private String mediaUrl;
 
     public String getBody() {
         return body;
     }
 
-    public long getId() {
-        return id;
+    public long getUId() {
+        return uId;
     }
 
     public User getUser() {
@@ -50,9 +68,11 @@ public class Tweet implements Parcelable {
         return mediaUrl;
     }
 
-    public void setMediaUrl(String mediaUrl) {
-        this.mediaUrl = mediaUrl;
+    // Default Constructor
+    public Tweet() {
+        super();
     }
+
     /*
          {
              "created_at": "Tue Aug 28 21:16:23 +0000 2012",
@@ -71,9 +91,10 @@ public class Tweet implements Parcelable {
 
        try {
            tweet.timestamp = jsonTweet.getString("created_at");
-           tweet.id = jsonTweet.getLong("id");
+           tweet.uId = jsonTweet.getLong("id");
            tweet.body = jsonTweet.getString("text");
            tweet.user = new User(jsonTweet.getJSONObject("user"));
+           tweet.mediaUrl = "";
 
            /* Use this to display retweet objects differently
             * boolean count = jsonTweet.getBoolean("retweeted");
@@ -101,8 +122,8 @@ public class Tweet implements Parcelable {
                tweet.mediaUrl = "";
            }
 
-           queryCtrs.setSinceId(tweet.getId());
-           queryCtrs.setMaxId(tweet.getId());
+           queryCtrs.setSinceId(tweet.getUId());
+           queryCtrs.setMaxId(tweet.getUId());
 
        } catch (JSONException e) {
            e.printStackTrace();
@@ -131,9 +152,6 @@ public class Tweet implements Parcelable {
        return arrList;
    }
 
-    public Tweet() {
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -141,14 +159,14 @@ public class Tweet implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.uId);
         dest.writeString(this.body);
-        dest.writeLong(this.id);
         dest.writeParcelable(this.user, 0);
     }
 
     private Tweet(Parcel in) {
+        this.uId = in.readLong();
         this.body = in.readString();
-        this.id = in.readLong();
         this.user = in.readParcelable(User.class.getClassLoader());
     }
 

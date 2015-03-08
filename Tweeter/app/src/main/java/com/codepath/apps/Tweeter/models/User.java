@@ -3,19 +3,38 @@ package com.codepath.apps.Tweeter.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.annotation.Table;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
 /**
  * Created by moulib on 2/21/15.
  */
 
+@Table(name = "Users")
+public class User extends Model implements Parcelable {
 
-public class User implements Parcelable {
-    private String name;
+    @Column(name = "uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long uid;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "profile_url")
     private String profile_url;
+
+    @Column(name = "handle")
     private String handle;
+
+    // Default constructor
+    public User() {
+        super();
+    }
 
     @Override
     public int describeContents() {
@@ -24,8 +43,8 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(name);
         out.writeLong(uid);
+        out.writeString(name);
         out.writeString(profile_url);
         out.writeString(handle);
     }
@@ -44,8 +63,8 @@ public class User implements Parcelable {
     };
 
     private User(Parcel in) {
-        name = in.readString();
         uid = in.readLong();
+        name = in.readString();
         profile_url = in.readString();
         handle = in.readString();
     }

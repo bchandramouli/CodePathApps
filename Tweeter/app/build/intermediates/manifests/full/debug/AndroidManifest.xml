@@ -53,10 +53,6 @@
             android:name="com.codepath.apps.Tweeter.TimelineActivity"
             android:label="@string/title_activity_timeline" >
         </activity>
-        <activity
-            android:name="com.codepath.apps.restclienttemplate.TimelineActivity"
-            android:label="@string/title_activity_timeline" >
-        </activity>
     </application>
 
 </manifest>

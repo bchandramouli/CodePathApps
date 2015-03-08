@@ -16,12 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.Tweeter.R;
-import com.codepath.apps.Tweeter.TimelineActivity;
 import com.codepath.apps.Tweeter.models.Tweet;
 import com.codepath.apps.Tweeter.models.User;
-import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 /**
  * Created by moulib on 2/22/15.
@@ -125,7 +122,7 @@ public class TweetDialog extends DialogFragment {
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long id = (tweet != null) ? tweet.getId() : 0;
+                long id = (tweet != null) ? tweet.getUId() : 0;
                 listener.onPostTweet(etTweetBody.getText().toString(), id);
                 getDialog().dismiss();
             }

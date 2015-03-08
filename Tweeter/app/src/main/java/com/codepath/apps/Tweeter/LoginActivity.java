@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 //Where the user signs in!

@@ -12,9 +12,7 @@ import android.widget.TextView;
 import com.codepath.apps.Tweeter.R;
 import com.codepath.apps.Tweeter.models.Tweet;
 
-import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +35,6 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvFavorites;
         ImageView ivMedia;
     };
-
 
     public TweetArrayAdapter(Context context, List<Tweet> tweets) {
         super(context, android.R.layout.simple_list_item_1, tweets);
@@ -75,7 +72,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         Tweet tweet = getItem(position);
 
         // Check if we are using a recycled view, if not inflate
-        if (convertView == null) {
+        //if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             // create a new view from template and don't attach to parent just yet.
@@ -83,26 +80,34 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 
             // look up the views for populating the data.
             viewHolder.ivUserProfile = (ImageView)convertView.findViewById(R.id.ivUserProfile);
+            viewHolder.ivMedia = (ImageView)convertView.findViewById(R.id.ivMedia);
             viewHolder.tvUserName = (TextView)convertView.findViewById(R.id.tvUserName);
             viewHolder.tvUserHandle = (TextView)convertView.findViewById(R.id.tvUserHandle);
             viewHolder.tvTimeStamp = (TextView)convertView.findViewById(R.id.tvTimeStamp);
             viewHolder.tvBody = (TextView)convertView.findViewById(R.id.tvBody);
             viewHolder.tvRetweets = (TextView)convertView.findViewById(R.id.tvRetweets);
             viewHolder.tvFavorites = (TextView)convertView.findViewById(R.id.tvFavorites);
-            viewHolder.ivMedia = (ImageView)convertView.findViewById(R.id.ivMedia);
 
             convertView.setTag(viewHolder);
 
+        /* XXX - Todo - temporarily disabled to not reuse - so the image view looks clean!
         } else {
             // get the viewHolder from the tag
             viewHolder = (ViewHolder)convertView.getTag();
         }
+        */
 
         /*
          * Insert the image data using picasso
          *     - First clear out the image
          */
         viewHolder.ivUserProfile.setImageResource(0);
+        viewHolder.ivMedia.setImageResource(0);
+
+        if (!tweet.getMediaUrl().equals("")) {
+            viewHolder.ivMedia.setVisibility(View.VISIBLE);
+            Picasso.with(getContext()).load(tweet.getMediaUrl()).into(viewHolder.ivMedia);
+        }
 
         Picasso.with(getContext()).load(tweet.getUser().getProfile_url()).
                 into(viewHolder.ivUserProfile);
@@ -124,12 +129,6 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvFavorites.setText(Integer.toString(tweet.getFavorites()));
         } else {
             viewHolder.tvFavorites.setVisibility(View.INVISIBLE);
-        }
-
-        if (tweet.getMediaUrl().equals("")) {
-            viewHolder.ivMedia.setVisibility(View.INVISIBLE);
-        } else {
-            Picasso.with(getContext()).load(tweet.getMediaUrl()).into(viewHolder.ivMedia);
         }
 
         // return the convertView
