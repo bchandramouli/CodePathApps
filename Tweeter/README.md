@@ -21,6 +21,6 @@ Notes (Next steps):
 
 Walkthrough of all user stories:
 
-![ScreenShot]()
+![ScreenShot](https://github.com/bchandramouli/CodePathApps/blob/master/Tweeter/Tweeter.gif)
 
 GIF created with LiceCap.
