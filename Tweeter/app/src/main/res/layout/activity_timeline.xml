@@ -5,29 +5,18 @@
     android:layout_height="match_parent"
     tools:context="com.codepath.apps.Tweeter.TimelineActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tbShare"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipeContainer"
+    <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tbShare">
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lvTweets"
-            android:layout_centerHorizontal="true"/>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
+        android:name="com.codepath.apps.Tweeter.Fragments.TweetListFragment"
+        android:id="@+id/fragTimeline"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        tools:layout="@layout/fragment_tweets_list"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
 
 

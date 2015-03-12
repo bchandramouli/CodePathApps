@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.apps.Tweeter.R;
@@ -34,6 +35,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         TextView tvRetweets;
         TextView tvFavorites;
         ImageView ivMedia;
+        RelativeLayout rlTweetCounters;
     };
 
     public TweetArrayAdapter(Context context, List<Tweet> tweets) {
@@ -72,7 +74,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         Tweet tweet = getItem(position);
 
         // Check if we are using a recycled view, if not inflate
-        //if (convertView == null) {
+        if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             // create a new view from template and don't attach to parent just yet.
@@ -87,15 +89,14 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvBody = (TextView)convertView.findViewById(R.id.tvBody);
             viewHolder.tvRetweets = (TextView)convertView.findViewById(R.id.tvRetweets);
             viewHolder.tvFavorites = (TextView)convertView.findViewById(R.id.tvFavorites);
+            viewHolder.rlTweetCounters = (RelativeLayout)convertView.findViewById(R.id.rlTweetCounters);
 
             convertView.setTag(viewHolder);
 
-        /* XXX - Todo - temporarily disabled to not reuse - so the image view looks clean!
         } else {
             // get the viewHolder from the tag
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        */
 
         /*
          * Insert the image data using picasso
@@ -105,8 +106,10 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         viewHolder.ivMedia.setImageResource(0);
 
         if (!tweet.getMediaUrl().equals("")) {
-            viewHolder.ivMedia.setVisibility(View.VISIBLE);
             Picasso.with(getContext()).load(tweet.getMediaUrl()).into(viewHolder.ivMedia);
+            viewHolder.ivMedia.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.ivMedia.setVisibility(View.GONE);
         }
 
         Picasso.with(getContext()).load(tweet.getUser().getProfile_url()).

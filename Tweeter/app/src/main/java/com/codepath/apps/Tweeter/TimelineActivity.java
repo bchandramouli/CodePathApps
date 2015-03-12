@@ -30,14 +30,17 @@ import java.util.ArrayList;
 public class TimelineActivity extends ActionBarActivity implements TweetDialog.OnSaveListener {
 
     private TwitterClient client;
+
     private ArrayList<Tweet> tweets;
     private TweetArrayAdapter aTweets;
     private ListView lvTweets;
+
     private User self;
 
     private SwipeRefreshLayout swipeContainer;
 
     private QueryCtrs queryCtrs = QueryCtrs.getInstance();
+
 
     private Boolean networkAvailable() {
 
@@ -89,6 +92,7 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
                     // Insert in the front!
                     tweets.addAll(0, Tweet.fromJsonArray(response));
                     aTweets.notifyDataSetChanged();
+                    lvTweets.invalidate(); // redraw the listview
                     // Now we call setRefreshing(false) to signal refresh has finished
                     swipeContainer.setRefreshing(false);
                 }
@@ -148,8 +152,7 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-
-        swipeContainer = (SwipeRefreshLayout)findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -195,6 +198,7 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
         } else {
             /* Get from local DB - TODO */
         }
+
     }
 
 

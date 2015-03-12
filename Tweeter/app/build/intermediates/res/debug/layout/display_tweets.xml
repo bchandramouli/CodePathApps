@@ -56,6 +56,14 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlBody"
+        android:layout_toRightOf="@+id/ivUserProfile"
+        android:layout_toEndOf="@+id/ivUserProfile"
+        android:layout_below="@id/rlUserProfile">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,34 +71,20 @@
         android:id="@+id/tvBody"
         android:autoLink="all"
         android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_below="@+id/rlUserProfile"
-        android:layout_toRightOf="@+id/ivUserProfile"
-        android:layout_toEndOf="@+id/ivUserProfile"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/empty_text"
-        android:id="@+id/tvDummy"
-        android:visibility="invisible"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_below="@+id/tvBody"
-        android:layout_toRightOf="@+id/ivUserProfile"
-        android:layout_toEndOf="@+id/ivUserProfile"/>
+        android:layout_marginEnd="10dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivMedia"
-        android:visibility="invisible"
-        android:layout_alignTop="@id/tvDummy"
-        android:layout_toRightOf="@+id/ivUserProfile"
-        android:layout_toEndOf="@+id/ivUserProfile"
+        android:visibility="gone"
+        android:adjustViewBounds="true"
+        android:layout_below="@id/tvBody"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
         android:contentDescription="@string/media" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -98,7 +92,7 @@
         android:id="@+id/rlTweetCounters"
         android:layout_toRightOf="@+id/ivUserProfile"
         android:layout_toEndOf="@+id/ivUserProfile"
-        android:layout_below="@id/tvDummy">
+        android:layout_below="@id/rlBody">
 
         <TextView
             android:layout_width="wrap_content"
