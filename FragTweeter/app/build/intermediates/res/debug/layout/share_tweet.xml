@@ -74,4 +74,4 @@
         android:layout_below="@id/rlUserProfile"
         android:maxLength="140"/>
 
-</RelativeLayout><!-- From: file:/Users/moulib/AndroidStudio/CodePathApps/Tweeter/app/src/main/res/layout/share_tweet.xml -->
+</RelativeLayout><!-- From: file:/Users/moulib/AndroidStudio/CodePathApps/FragTweeter/app/src/main/res/layout/share_tweet.xml -->

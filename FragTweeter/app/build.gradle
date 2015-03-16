@@ -29,5 +29,7 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.3'
     // Active Android! - Plus SQLlite!
     //compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    //Pager Sliding Tab Strip
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
 
