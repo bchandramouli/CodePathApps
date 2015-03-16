@@ -12,5 +12,6 @@
     <string name="_140_chars">140</string>
     <string name="media">Media</string>
     <string name="user_profile">User Profile</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>

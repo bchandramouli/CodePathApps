@@ -31,6 +31,15 @@ public class User extends Model implements Parcelable {
     @Column(name = "handle")
     private String handle;
 
+    @Column(name = "description")
+    private String tagline;
+
+    @Column(name = "followers")
+    private int followers;
+
+    @Column(name = "following")
+    private int following;
+
     // Default constructor
     public User() {
         super();
@@ -47,6 +56,9 @@ public class User extends Model implements Parcelable {
         out.writeString(name);
         out.writeString(profile_url);
         out.writeString(handle);
+        out.writeString(tagline);
+        out.writeInt(followers);
+        out.writeInt(following);
     }
 
     public static final Parcelable.Creator<User> CREATOR
@@ -67,6 +79,9 @@ public class User extends Model implements Parcelable {
         name = in.readString();
         profile_url = in.readString();
         handle = in.readString();
+        tagline = in.readString();
+        followers = in.readInt();
+        following = in.readInt();
     }
 
     public String getName() {
@@ -83,6 +98,18 @@ public class User extends Model implements Parcelable {
 
     public String getHandle() {
         return handle;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public int getFollowing() {
+        return following;
     }
 
     // De-serialize JSON to Java object
@@ -102,6 +129,9 @@ public class User extends Model implements Parcelable {
             this.uid = userJson.getLong("id");
             this.profile_url = userJson.getString("profile_image_url");
             this.handle = userJson.getString("screen_name");
+            this.tagline = userJson.getString("Description");
+            this.followers = userJson.getInt("followers_count");
+            this.following = userJson.getInt("friends_count");
         } catch (JSONException e) {
             e.printStackTrace();
         }

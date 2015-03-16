@@ -1,9 +1,11 @@
 package com.codepath.apps.Tweeter;
 
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -25,7 +27,7 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
 
     public void setupNewTweet(Tweet tweet) {
         FragmentManager fm = getSupportFragmentManager();
-        TweetDialog tweetDialog = TweetDialog.newInstance(tweet, homeTimelineFragment.me);
+        TweetDialog tweetDialog = TweetDialog.newInstance(tweet, homeTimelineFragment.getSelf());
         tweetDialog.show(fm, "new_tweet");
     }
 
@@ -80,13 +82,20 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
         // Handle presses on the action bar items
         switch (mi.getItemId()) {
             case R.id.miShare:
-                setupNewTweet(null);
+                //setupNewTweet(null);
                 return true;
-            case R.id.action_settings:
+            case R.id.miProfile:
+                userProfile();
                 return true;
             default:
                 return super.onOptionsItemSelected(mi);
         }
+    }
+
+    public void userProfile() {
+        //Launch the user profile activity
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
     }
 
     // Return the order of the Fragments in the View Pager

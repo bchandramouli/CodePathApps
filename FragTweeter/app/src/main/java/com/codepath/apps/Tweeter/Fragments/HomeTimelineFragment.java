@@ -31,27 +31,6 @@ import org.json.JSONObject;
  */
 public class HomeTimelineFragment extends TweetListFragment {
 
-    public User me;
-    private QueryCtrs queryCtrs = QueryCtrs.getInstance();
-
-
-    // Get the current user
-    private void getCurrentUser() {
-        getClient().getUserSettings(new JsonHttpResponseHandler() {
-            // Success
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // Parse the JSON User Object for the details.
-                me = new User(response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //failure case
-            }
-        });
-    }
-
     public void onPostTweet(String post, long reply_id) {
         // Send the post to twitter first.
         getClient().postTweet(post, reply_id, new JsonHttpResponseHandler() {
@@ -72,7 +51,7 @@ public class HomeTimelineFragment extends TweetListFragment {
     /* Parse the JSON Array and fill the data model */
     public void updateTimeline() {
 
-        getClient().updateHomeTimeline(queryCtrs.getCount(), queryCtrs.getSinceId(),
+        getClient().updateHomeTimeline(getQueryCount(), getQuerySinceId(),
             new JsonHttpResponseHandler() {
             // Success
             @Override
@@ -95,10 +74,10 @@ public class HomeTimelineFragment extends TweetListFragment {
     public void populateTimeline(int count) {
 
         if (count == 0) {
-            count = queryCtrs.getCount();
+            count = getQueryCount();
         }
 
-        getClient().getHomeTimeline(count, queryCtrs.getMaxId(), new JsonHttpResponseHandler() {
+        getClient().getHomeTimeline(count, getQueryMaxId(), new JsonHttpResponseHandler() {
             // Success
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -150,7 +129,6 @@ public class HomeTimelineFragment extends TweetListFragment {
 
         if (networkAvailable()) {
             /* Perform a network request */
-            getCurrentUser();
             populateTimeline(0);
         } else {
             /* Get from local DB - TODO */

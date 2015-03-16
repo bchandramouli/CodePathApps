@@ -22,6 +22,10 @@ import com.codepath.apps.Tweeter.TwitterClient;
 import com.codepath.apps.Tweeter.models.QueryCtrs;
 import com.codepath.apps.Tweeter.models.Tweet;
 import com.codepath.apps.Tweeter.models.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -33,10 +37,13 @@ public class TweetListFragment extends Fragment {
     private ArrayList<Tweet> tweets;
     private TweetArrayAdapter aTweets;
     private ListView lvTweets;
-
     private SwipeRefreshLayout swipeContainer;
 
+    private User me = null;
     private TwitterClient client;
+
+    private QueryCtrs queryCtrs = QueryCtrs.getInstance();
+
 
     public Boolean networkAvailable() {
         ConnectivityManager cm =
@@ -78,6 +85,10 @@ public class TweetListFragment extends Fragment {
         aTweets = new TweetArrayAdapter(getActivity(), tweets);
 
         client = TwitterApp.getRestClient();
+
+        if (networkAvailable()) {
+            getCurrentUser();
+        }
     }
 
     public void addAll(int pos, ArrayList<Tweet> twtList) {
@@ -96,6 +107,23 @@ public class TweetListFragment extends Fragment {
         swipeContainer.setRefreshing(false);
     }
 
+    // Get the current user
+    private void getCurrentUser() {
+        client.getUserSettings(new JsonHttpResponseHandler() {
+            // Success
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Parse the JSON User Object for the details.
+                me = new User(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //failure case
+            }
+        });
+    }
+
     public Tweet getTweet(int pos) {
        return (tweets.get(pos));
     }
@@ -110,5 +138,29 @@ public class TweetListFragment extends Fragment {
 
     public TwitterClient getClient() {
         return client;
+    }
+
+    public User getSelf() {
+        return me;
+    }
+
+    public long getQuerySinceId() {
+        return queryCtrs.getSinceId();
+    }
+
+    public long getQueryMaxId() {
+        return queryCtrs.getSinceId();
+    }
+
+    public int getQueryCount() {
+        return queryCtrs.getCount();
+    }
+
+    public String getUserHandle() {
+        if (me != null) {
+            return me.getHandle();
+        } else {
+            return null;
+        }
     }
 }
