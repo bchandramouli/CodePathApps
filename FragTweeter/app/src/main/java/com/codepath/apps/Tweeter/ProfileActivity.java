@@ -1,6 +1,5 @@
 package com.codepath.apps.Tweeter;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,22 +9,17 @@ import android.view.MenuItem;
 import com.codepath.apps.Tweeter.Fragments.UserHeaderFragment;
 import com.codepath.apps.Tweeter.Fragments.UserTimelineFragment;
 import com.codepath.apps.Tweeter.models.User;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.json.JSONObject;
 
 public class ProfileActivity extends ActionBarActivity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
         if (savedInstanceState == null) {
+            User user = getIntent().getParcelableExtra("user");
             // Create a new user time line fragment;
-            UserHeaderFragment userHeaderFragment = new UserHeaderFragment();
+            UserHeaderFragment userHeaderFragment = UserHeaderFragment.newInstance(user);
             UserTimelineFragment userTimelineFragment = new UserTimelineFragment();
 
             // Display the user fragment within this activity - dynamic way

@@ -74,7 +74,7 @@ public class User extends Model implements Parcelable {
         }
     };
 
-    private User(Parcel in) {
+    public User(Parcel in) {
         uid = in.readLong();
         name = in.readString();
         profile_url = in.readString();
@@ -129,7 +129,7 @@ public class User extends Model implements Parcelable {
             this.uid = userJson.getLong("id");
             this.profile_url = userJson.getString("profile_image_url");
             this.handle = userJson.getString("screen_name");
-            this.tagline = userJson.getString("Description");
+            this.tagline = userJson.getString("description");
             this.followers = userJson.getInt("followers_count");
             this.following = userJson.getInt("friends_count");
         } catch (JSONException e) {
@@ -137,4 +137,13 @@ public class User extends Model implements Parcelable {
         }
     }
 
+    public User(User another) {
+        this.name = another.name;
+        this.uid = another.uid;
+        this.profile_url = another.profile_url;
+        this.handle = another.handle;
+        this.tagline = another.tagline;
+        this.followers = another.followers;
+        this.following = another.following;
+    }
 }

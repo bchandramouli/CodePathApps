@@ -28,7 +28,7 @@ import org.json.JSONObject;
 /**
  * Created by moulib on 3/15/15.
  */
-public class UserHeaderFragment extends Fragment{
+public class UserHeaderFragment extends Fragment {
 
     private ImageView ivProfile;
     private TextView tvProfileName;
@@ -50,6 +50,9 @@ public class UserHeaderFragment extends Fragment{
         tvFollowers = (TextView) v.findViewById(R.id.tvFollowers);
         tvFollowing = (TextView) v.findViewById(R.id.tvFollowing);
 
+        // XXX - TODO - fix this ugliness
+        ((ProfileActivity) getActivity()).getSupportActionBar().setTitle("@" + user.getHandle());
+
         tvProfileName.setText(user.getName());
         tvProfileTagline.setText(user.getTagline());
         tvFollowers.setText(Integer.toString(user.getFollowers()) + "Followers");
@@ -57,30 +60,21 @@ public class UserHeaderFragment extends Fragment{
 
         Picasso.with(getActivity().getApplicationContext()).load(user.getProfile_url()).
                 into(ivProfile);
-
         return v;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = getArguments().getParcelable("user");
+    }
 
-        client = new TwitterApp().getRestClient();
-
-        client.getUserSettings(new JsonHttpResponseHandler() {
-            // Success
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // Parse the JSON User Object for the details.
-                User me = new User(response);
-                // XXX - TODO - fix this ugliness
-                ((ProfileActivity)getActivity()).getSupportActionBar().setTitle("@" + me.getHandle());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //failure case
-            }
-        });
+    public static UserHeaderFragment newInstance(User argUser) {
+        UserHeaderFragment userHeaderFragment = new UserHeaderFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("user", argUser);
+        userHeaderFragment.setArguments(args);
+        return userHeaderFragment;
     }
 }
+

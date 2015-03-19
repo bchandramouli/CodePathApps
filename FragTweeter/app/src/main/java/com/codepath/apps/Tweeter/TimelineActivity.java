@@ -20,10 +20,18 @@ import com.codepath.apps.Tweeter.Fragments.HomeTimelineFragment;
 import com.codepath.apps.Tweeter.Fragments.MentionsTimelineFragement;
 import com.codepath.apps.Tweeter.Fragments.TweetDialog;
 import com.codepath.apps.Tweeter.models.Tweet;
+import com.codepath.apps.Tweeter.models.User;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 public class TimelineActivity extends ActionBarActivity implements TweetDialog.OnSaveListener {
 
     private HomeTimelineFragment homeTimelineFragment;
+
+    Intent profileIntent;
 
     public void setupNewTweet(Tweet tweet) {
         FragmentManager fm = getSupportFragmentManager();
@@ -63,7 +71,6 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the pager tabs to the view pager
         tabStrip.setViewPager(vPager);
-
     }
 
     @Override
@@ -94,8 +101,24 @@ public class TimelineActivity extends ActionBarActivity implements TweetDialog.O
 
     public void userProfile() {
         //Launch the user profile activity
-        Intent i = new Intent(this, ProfileActivity.class);
-        startActivity(i);
+        TwitterClient client = new TwitterApp().getRestClient();
+        profileIntent = new Intent(this, ProfileActivity.class);
+
+        client.getUserSettings(new JsonHttpResponseHandler() {
+            // Success
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Parse the JSON User Object for the details.
+                User user = new User(response);
+                profileIntent.putExtra("user", user);
+                startActivity(profileIntent);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //failure case
+            }
+        });
     }
 
     // Return the order of the Fragments in the View Pager
