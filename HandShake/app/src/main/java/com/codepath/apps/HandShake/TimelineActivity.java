@@ -63,8 +63,6 @@ public class TimelineActivity extends ActionBarActivity {
                     connections.addAll(Connection.fromJsonArray(responseArr));
                     aConnections.notifyDataSetChanged();
                 }
-
-                Log.d("DEBUG", "received linked in data");
             }
 
             @Override

@@ -1,7 +1,5 @@
 package com.codepath.apps.HandShake.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +18,7 @@ import com.activeandroid.annotation.Table;
 public class Connection extends Model {
     // display_tweets attributes
     @Column(name = "uId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    private long uId;
+    private String uId;
 
     @Column(name = "firstName")
     private String firstName;
@@ -37,7 +35,7 @@ public class Connection extends Model {
     @Column(name = "imageUrl")
     private String imageUrl;
 
-    public long getuId() {
+    public String getuId() {
         return uId;
     }
 
@@ -79,7 +77,7 @@ public class Connection extends Model {
             } catch (JSONException e) {
                 connection.imageUrl = "";
             }
-            connection.uId = connJson.getLong("id");
+            connection.uId = connJson.getString("id");
             connection.description = connJson.getString("headline");
 
        } catch (JSONException e) {

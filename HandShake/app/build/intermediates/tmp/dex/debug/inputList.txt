@@ -1,0 +1,11 @@
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/classes/debug
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-03902aefbec318a32cd068b0a7880380facb5f37.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/codepath-utils-3097b72268448c7971dd2e6e0393a07623d91c5a.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/codepath-oauth-0.4.1-b6664e9a8ff34fe9c68cdf7ac7dfbb1c5cce6243.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/ActiveAndroid-3.1-08c6335cd-4a5198158746393067919d4cc5091542c23bef2a.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/scribe-codepath-0.0.3-bf8f98aa7e388b3075074b4c64eae1dbafe1c6f9.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.6-dbd95ef690c4e9ef51152c82dcdda2a76b293429.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/picasso-2.4.0-07340b20a08482089d96ce7e68d3a0f99998a427.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-cc7328d1efa22874510b2abc5173032e7c536202.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/classes-813248272022f42a00a893e846d6ebea51392c89.jar
+/Users/moulib/AndroidStudio/CodePathApps/HandShake/app/build/intermediates/pre-dexed/debug/classes-50443c10a554c899510198085c297c3b45f3210d.jar

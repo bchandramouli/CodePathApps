@@ -74,8 +74,10 @@ public class LinkedInArrayAdapter extends ArrayAdapter<Connection> {
          */
         viewHolder.ivUserProfile.setImageResource(0);
 
-        Picasso.with(getContext()).load(connection.getImageUrl()).
-                into(viewHolder.ivUserProfile);
+        if (!connection.getImageUrl().matches("")) {
+            Picasso.with(getContext()).load(connection.getImageUrl()).
+                    into(viewHolder.ivUserProfile);
+        }
 
         // insert the model data into the view
         viewHolder.tvFirstName.setText(connection.getFirstName());
