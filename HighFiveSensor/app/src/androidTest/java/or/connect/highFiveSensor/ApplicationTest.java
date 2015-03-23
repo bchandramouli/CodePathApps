@@ -1,4 +1,4 @@
-package or.connect.hifisensor;
+package or.connect.highFiveSensor;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
