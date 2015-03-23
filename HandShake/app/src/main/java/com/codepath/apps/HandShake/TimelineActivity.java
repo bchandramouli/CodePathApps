@@ -1,6 +1,7 @@
 package com.codepath.apps.HandShake;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
@@ -33,7 +34,7 @@ public class TimelineActivity extends ActionBarActivity {
     private LinkedInArrayAdapter aConnections;
     private ListView lvConnections;
 
-    //private User self;
+    private User self;
 
     private Boolean networkAvailable() {
 
@@ -72,6 +73,31 @@ public class TimelineActivity extends ActionBarActivity {
         });
     }
 
+    private void getSelfProfile() {
+
+        client.getUserSettings(new JsonHttpResponseHandler(){
+            // Success
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Parse the JSON Object for the details.
+                self = new User(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //failure case
+            }
+        });
+
+    }
+
+    private void getUserProfile() {
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("user", self);
+
+        startActivity(i);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +131,7 @@ public class TimelineActivity extends ActionBarActivity {
         if (networkAvailable()) {
             /* Perform a network request */
             client = LinkedInApp.getRestClient();
+            getSelfProfile();
             populateTimeline();
         } else {
             /* Get from local DB - TODO */
@@ -121,9 +148,18 @@ public class TimelineActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return super.onOptionsItemSelected(mi);
+
+        // Handle presses on the action bar items
+        switch (mi.getItemId()) {
+            case R.id.miProfile:
+                getUserProfile();
+                return true;
+            default:
+                return super.onOptionsItemSelected(mi);
+        }
     }
 }

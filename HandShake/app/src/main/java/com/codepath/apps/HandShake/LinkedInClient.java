@@ -30,7 +30,6 @@ public class LinkedInClient extends OAuthBaseClient {
 	public static final String REST_CALLBACK_URL = "oauth://cphandshake";
 
 
-
 	public LinkedInClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, MOULI_REST_CONSUMER_KEY, MOULI_REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}

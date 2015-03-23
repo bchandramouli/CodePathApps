@@ -71,15 +71,23 @@ public class Connection extends Model {
         try {
             connection.firstName = connJson.getString("firstName");
             connection.lastName = connJson.getString("lastName");
-            connection.industry = connJson.getString("industry");
+            connection.uId = connJson.getString("id");
+
             try {
                 connection.imageUrl = connJson.getString("pictureUrl");
             } catch (JSONException e) {
                 connection.imageUrl = "";
             }
-            connection.uId = connJson.getString("id");
-            connection.description = connJson.getString("headline");
-
+            try {
+                connection.industry = connJson.getString("industry");
+            } catch (JSONException e) {
+                connection.industry = "";
+            }
+            try {
+                connection.description = connJson.getString("headline");
+            } catch (JSONException e) {
+                connection.description = "";
+            }
        } catch (JSONException e) {
            e.printStackTrace();
            return null;

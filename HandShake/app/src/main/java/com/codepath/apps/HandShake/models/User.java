@@ -16,10 +16,10 @@ import com.activeandroid.annotation.Column;
  */
 
 @Table(name = "Users")
-public class User extends Model {
+public class User extends Model implements Parcelable {
 
     @Column(name = "uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    private long uid;
+    private String uid;
 
     @Column(name = "firstName")
     private String firstName;
@@ -33,12 +33,16 @@ public class User extends Model {
     @Column(name = "industry")
     private String industry;
 
+    @Column(name = "description")
+    private String description;
+
+
     // Default constructor
     public User() {
         super();
     }
 
-    public long getUid() {
+    public String getUid() {
         return uid;
     }
 
@@ -58,16 +62,67 @@ public class User extends Model {
         return industry;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     // De-serialize JSON to Java object
     public User(JSONObject userJson) {
         try {
+            this.uid = userJson.getString("id");
             this.firstName = userJson.getString("firstName");
             this.lastName = userJson.getString("lastName");
-            this.industry = userJson.getString("industry");
-            this.imageUrl = userJson.getString("imageUrl");
-            this.uid = userJson.getLong("id");
+            this.description = userJson.getString("headline");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        try {
+            this.industry = userJson.getString("industry");
+        } catch (JSONException e) {
+            this.industry = "";
+        }
+
+        try {
+            this.imageUrl = userJson.getString("siteStandardProfileRequest").getString("url");
+        } catch (JSONException e) {
+            this.imageUrl = "";
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(uid);
+        out.writeString(firstName);
+        out.writeString(lastName);
+        out.writeString(imageUrl);
+        out.writeString(industry);
+        out.writeString(description);
+    }
+
+    public static final Parcelable.Creator<User> CREATOR
+            = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    public User(Parcel in) {
+        uid = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        imageUrl = in.readString();
+        industry = in.readString();
+        description = in.readString();
     }
 }
